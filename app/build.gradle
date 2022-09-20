@@ -1,12 +1,23 @@
 plugins {
     id 'org.springframework.boot' version '2.7.3'
     id 'io.spring.dependency-management' version '1.0.13.RELEASE'
+    id 'com.palantir.docker' version '0.34.0'
     id 'java'
 }
 
 group = 'com.zn'
 version = '0.0.1-SNAPSHOT'
 sourceCompatibility = '8'
+
+docker {
+    name "${project.name}"
+    dockerfile file('Dockerfile')
+    files bootJar.getArchiveFile()
+    buildArgs(['JAR_FILE': "${bootJar.getArchiveFileName().get()}"])
+}
+
+tasks.docker.dependsOn('build')
+
 
 configurations {
     compileOnly {
@@ -19,6 +30,8 @@ repositories {
 }
 
 dependencies {
+    implementation 'com.palantir.gradle.docker:gradle-docker:0.34.0'
+    implementation 'org.springframework.boot:spring-boot-starter-actuator'
     implementation 'org.springframework.boot:spring-boot-starter-data-jpa'
     implementation 'org.springframework.boot:spring-boot-starter-data-rest'
     implementation 'org.springframework.boot:spring-boot-starter-security'
