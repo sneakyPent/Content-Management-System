@@ -36,6 +36,8 @@ services:
       - PGADMIN_DEFAULT_PASSWORD=${PGADMIN_DEFAULT_PASSWORD}
     ports:
       - 5050:80
+    volumes:
+      - ./appdata/pgadmin:/var/lib/pgadmin
   nginx:
     image: nginx:1.23.1
     restart: unless-stopped
