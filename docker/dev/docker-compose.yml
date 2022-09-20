@@ -1,0 +1,25 @@
+version: "3.9"
+services:
+  postgres-db:
+    container_name: appDatabase
+    image: postgres:14.5
+    volumes:
+      - ./appdata/postgresql/data:/var/lib/postgresql/data
+    environment:
+      - POSTGRES_DB=${POSTGRES_DB_NAME}
+      - POSTGRES_USER=${POSTGRES_DB_USERNAME}
+      - POSTGRES_PASSWORD=${POSTGRES_DB_PASSWORD}
+  app:
+    container_name: application
+    image: app
+    depends_on:
+      - postgres-db
+    environment:
+      - SERVER_PORT=${SERVER_PORT}
+      - DB_HOST=${POSTGRES_DB_HOST}
+      - DB_PORT=${POSTGRES_DB_PORT}
+      - DB_NAME=${POSTGRES_DB_NAME}
+      - DB_USERNAME=${POSTGRES_DB_USERNAME}
+      - DB_PASSWORD=${POSTGRES_DB_PASSWORD}
+    ports:
+      - 8080:8080
