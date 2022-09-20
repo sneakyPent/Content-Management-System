@@ -8,7 +8,7 @@ This project will create a simple Content management system, where user can mana
 2. Documents with metadata.
 
 Application with authentication and authorization. 
-More specifically
+More specifically:
 
 ## Authentication and authorization
 The application will have three predefined/fixed user roles. Administrator, Designer and Contributor.
@@ -17,7 +17,7 @@ Designer will be able to create new List definitions or Document Libraries (and 
 Administrator will be able to do everything Designer can, plus user management.
 
 ### Project setup
-1. Use spring initalizer. 
+1. Use spring initializer. 
 2. Use Gradle/java settings
 
 Add the following:
@@ -26,13 +26,13 @@ Add the following:
 3. rest repositories,
 4. spring security, 
 5. spring data jpa, 
-6. posgresql driver
+6. postgresql driver
 
 
 ### User management (administration role)
-Configure database to connect with a postgresql database.
+Configure the application's database to connect with a postgresql database.
 CRUD interface of users.
-Configure Spring Security to use users from database. 
+Configure Spring Security to use users from the database. 
 
 ### List and Library Definition (designer)
 A ContentDefinition entity will have the following:
@@ -40,7 +40,7 @@ A ContentDefinition entity will have the following:
 2. Name
 3. List<Metadata> metadata
 
-Metatada entity will have: 
+Metadata entity will have: 
 1. Label
 2. Description
 3. Type  [Text, Number, List Name]
