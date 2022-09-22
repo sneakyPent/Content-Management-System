@@ -57,3 +57,5 @@ services:
       - ./nginx/data/www:/data/www
     ports:
       - 80:80
+    extra_hosts:
+      - "host.docker.internal:host-gateway"
