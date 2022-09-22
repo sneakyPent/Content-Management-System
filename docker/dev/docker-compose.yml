@@ -12,6 +12,7 @@ services:
       - POSTGRES_DB=${POSTGRES_DB_NAME}
       - POSTGRES_USER=${POSTGRES_DB_USERNAME}
       - POSTGRES_PASSWORD=${POSTGRES_DB_PASSWORD}
+
   app:
     container_name: application
     image: app
@@ -27,6 +28,7 @@ services:
       - DB_PASSWORD=${POSTGRES_DB_PASSWORD}
     ports:
       - 8080:8080
+
   pgadmin:
     container_name: pgadmin
     image: dpage/pgadmin4
@@ -38,6 +40,7 @@ services:
       - 5050:80
     volumes:
       - ./appdata/pgadmin:/var/lib/pgadmin
+
   nginx:
     image: nginx:1.23.1
     restart: unless-stopped
