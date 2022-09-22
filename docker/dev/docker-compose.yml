@@ -1,5 +1,13 @@
 version: "3.9"
 services:
+
+  dev:
+    image: rwgrim/docker-noop
+    depends_on:
+      - postgres-db
+      - nginx
+      - pgadmin
+
   postgres-db:
     container_name: appDatabase
     image: postgres:14.5
