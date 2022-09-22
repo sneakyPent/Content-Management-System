@@ -14,6 +14,7 @@ import java.util.List;
 @AllArgsConstructor
 @Data
 @Builder
+@Table(name = "permission")
 public class Permission {
 
     @Id
