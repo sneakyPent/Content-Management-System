@@ -15,6 +15,7 @@ import java.util.List;
 @AllArgsConstructor
 @Data
 @Builder
+@Table(name = "role")
 public class Role {
 
     @Id
