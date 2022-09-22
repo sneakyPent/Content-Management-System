@@ -29,3 +29,9 @@ management:
     web:
       exposure:
         include: '*'
+
+application:
+  security:
+    user:
+      admin: ${SPRING_SECURITY_USER_NAME:admin}
+      password: ${SPRING_SECURITY_USER_PASSWORD:password}
