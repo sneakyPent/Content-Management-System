@@ -1,6 +1,6 @@
-package com.zn.cms.Permission;
+package com.zn.cms.permission.model;
 
-import com.zn.cms.Role.Role;
+import com.zn.cms.role.model.Role;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;

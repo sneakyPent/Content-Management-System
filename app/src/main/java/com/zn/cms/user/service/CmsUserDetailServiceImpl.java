@@ -1,6 +1,6 @@
 package com.zn.cms.user.service;
 
-import com.zn.cms.Role.Role;
+import com.zn.cms.role.model.Role;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;

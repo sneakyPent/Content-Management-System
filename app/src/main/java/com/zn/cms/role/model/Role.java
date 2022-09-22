@@ -1,7 +1,7 @@
-package com.zn.cms.Role;
+package com.zn.cms.role.model;
 
 import com.zn.cms.user.model.User;
-import com.zn.cms.Permission.Permission;
+import com.zn.cms.permission.model.Permission;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -25,7 +25,9 @@ public class Role {
     private List<User> users;
 
     @ManyToMany
-    @JoinTable(name = "roles_permissions", joinColumns = @JoinColumn(name = "role_id", referencedColumnName = "id"), inverseJoinColumns = @JoinColumn(name = "permission_id", referencedColumnName = "id"))
+    @JoinTable(name = "roles_permissions",
+            joinColumns = @JoinColumn(name = "role_id", referencedColumnName = "id"),
+            inverseJoinColumns = @JoinColumn(name = "permission_id", referencedColumnName = "id"))
     private List<Permission> permissions;
 
     private String name;

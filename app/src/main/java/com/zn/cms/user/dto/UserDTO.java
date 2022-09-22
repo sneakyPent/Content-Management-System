@@ -1,13 +1,12 @@
 package com.zn.cms.user.dto;
 
-import com.zn.cms.Role.Role;
+import com.zn.cms.role.model.Role;
 import com.zn.cms.user.model.User;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
-import java.util.ArrayList;
 import java.util.Collection;
 
 @NoArgsConstructor

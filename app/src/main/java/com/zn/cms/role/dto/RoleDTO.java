@@ -1,4 +1,4 @@
-package com.zn.cms.Permission;
+package com.zn.cms.role.dto;
 
 import lombok.*;
 
@@ -6,7 +6,7 @@ import lombok.*;
 @AllArgsConstructor
 @Data
 @Builder
-public class PermissionDTO {
+public class RoleDTO {
 
     private String name;
 }
