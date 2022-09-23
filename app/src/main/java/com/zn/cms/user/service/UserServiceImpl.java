@@ -1,5 +1,7 @@
 package com.zn.cms.user.service;
 
+import com.zn.cms.role.model.Role;
+import com.zn.cms.role.repository.RoleRepository;
 import com.zn.cms.user.dto.UserDTO;
 import com.zn.cms.user.model.User;
 import com.zn.cms.user.repository.UserRepository;
@@ -8,15 +10,15 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
-import javax.annotation.PostConstruct;
-import java.io.IOException;
-import java.util.ArrayList;
+
+import java.util.List;
 import java.util.Optional;
 
 @Service
 @RequiredArgsConstructor
 public class UserServiceImpl implements IUserService {
     private final UserRepository userRepository;
+    private final RoleRepository roleRepository;
 
     private final PasswordEncoder passwordEncoder;
 
@@ -27,9 +29,10 @@ public class UserServiceImpl implements IUserService {
     private String password;
 
 
-    @PostConstruct
-    public void init() throws IOException {
+    public Optional<UserDTO> createUserIfNotFound(
+            String userName, String password, List<String> roleNames) {
         Optional<User> userOpt = userRepository.findByUsername(adminUser);
+        List<Role> roles = roleRepository.findAllByNameIn(roleNames);
         if (!userOpt.isPresent()) {
             userRepository.save(
                     User.builder()
@@ -39,9 +42,10 @@ public class UserServiceImpl implements IUserService {
                             .username(adminUser)
                             .password(passwordEncoder.encode(password))
                             .enabled(true)
-                            .roles(new ArrayList<>())
+                            .roles(roles)
                             .build());
         }
+        return null;
     }
 
 
