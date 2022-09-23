@@ -1,7 +1,6 @@
 package com.zn.cms.role.dto;
 
-import com.zn.cms.permission.model.Permission;
-import com.zn.cms.role.model.Role;
+import com.zn.cms.permission.dto.PermissionDTO;
 import lombok.*;
 
 import java.util.Collection;
@@ -13,6 +12,6 @@ import java.util.Collection;
 public class RoleDTO {
 
     private String name;
-    private Collection<Permission> permissions;
+    private Collection<PermissionDTO> permissions;
 
 }
