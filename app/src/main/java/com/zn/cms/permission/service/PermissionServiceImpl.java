@@ -20,7 +20,7 @@ public class PermissionServiceImpl implements PermissionService {
 
     @Override
     public Optional<PermissionDTO> findByName(String name) {
-        return permissionRepository.findByName(name).map(PermissionDTO::new);
+        return permissionRepository.findByName(name).map(permissionMapper::permissionToPermissionDTO);
     }
 
     @Override
@@ -29,7 +29,7 @@ public class PermissionServiceImpl implements PermissionService {
     }
 
     public Optional<PermissionDTO> createPermissionIfNotFound(String name) {
-        Optional<PermissionDTO> permission = permissionRepository.findByName(name).map(PermissionDTO::new);
+        Optional<PermissionDTO> permission = permissionRepository.findByName(name).map(permissionMapper::permissionToPermissionDTO);
         if (!permission.isPresent()) {
             permissionRepository.save(
                     Permission.builder()

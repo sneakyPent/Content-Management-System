@@ -1,7 +1,9 @@
 package com.zn.cms.permission.dto;
 
-import com.zn.cms.permission.model.Permission;
-import lombok.*;
+import lombok.AllArgsConstructor;
+import lombok.Builder;
+import lombok.Data;
+import lombok.NoArgsConstructor;
 
 @NoArgsConstructor
 @AllArgsConstructor
@@ -11,7 +13,4 @@ public class PermissionDTO {
 
     private String name;
 
-    public PermissionDTO(Permission permission){
-        this.name = permission.getName();
-    }
 }
