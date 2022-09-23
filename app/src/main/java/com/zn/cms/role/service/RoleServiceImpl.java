@@ -32,14 +32,14 @@ public class RoleServiceImpl implements IRoleService {
         return roleRepository.findAllByNameIn(roleNames).stream().map(roleMapper::roleToRoleDTO).collect(Collectors.toList());
     }
 
-    private Optional<Role> createRoleIfNotFound(String name) {
-        Optional<Role> role = roleRepository.findByName(name);
-        Optional<Permission> permission = permissionRepository.findByName("READ_PRIVILEGE");
-        List<Permission> permissions = new ArrayList<Permission>();
+
+    public Optional<RoleDTO> createRoleIfNotFound(String name, List<String> permissionNames) {
+        Optional<RoleDTO> role = roleRepository.findByName(name).map(RoleDTO::new);
+        List<Permission> permissions = permissionRepository.findAllByNameIn(permissionNames);
         if (!role.isPresent()) {
             roleRepository.save(
                     Role.builder()
-                            .name(name).build());
+                            .name(name).permissions(permissions).build());
         }
         return role;
     }
