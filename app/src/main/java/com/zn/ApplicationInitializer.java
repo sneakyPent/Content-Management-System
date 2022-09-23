@@ -8,6 +8,7 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.stereotype.Component;
 
+import java.util.Arrays;
 import java.util.Collections;
 
 @RequiredArgsConstructor
@@ -27,7 +28,18 @@ public class ApplicationInitializer implements CommandLineRunner {
     @Override
     public void run(String... args) {
         permissionService.createPermissionIfNotFound("READ_PRIVILEGE");
-        roleService.createRoleIfNotFound("ROLE_ADMIN", Collections.singletonList("READ_PRIVILEGE"));
+        permissionService.createPermissionIfNotFound("READ_ROLE");
+        permissionService.createPermissionIfNotFound("WRITE_ROLE");
+        permissionService.createPermissionIfNotFound("UPDATE_ROLE");
+        permissionService.createPermissionIfNotFound("DELETE_ROLE");
+        permissionService.createPermissionIfNotFound("READ_USER");
+        permissionService.createPermissionIfNotFound("WRITE_USER");
+        permissionService.createPermissionIfNotFound("UPDATE_USER");
+        permissionService.createPermissionIfNotFound("DELETE_USER");
+
+        roleService.createRoleIfNotFound("ROLE_ADMIN", Arrays.asList("READ_PRIVILEGE","READ_USER","WRITE_USER","UPDATE_USER","DELETE_USER"));
+        roleService.createRoleIfNotFound("ROLE_CONTRIBUTOR", Collections.singletonList("READ_PRIVILEGE"));
+        roleService.createRoleIfNotFound("ROLE_DESIGN", Collections.singletonList("READ_PRIVILEGE"));
         userService.createUserIfNotFound(adminUser, password, Collections.singletonList("ROLE_ADMIN"));
 
     }
