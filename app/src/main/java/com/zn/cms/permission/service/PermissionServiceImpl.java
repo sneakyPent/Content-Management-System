@@ -5,6 +5,8 @@ import com.zn.cms.permission.mapper.PermissionMapper;
 import com.zn.cms.permission.model.Permission;
 import com.zn.cms.permission.repository.PermissionRepository;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -17,6 +19,11 @@ public class PermissionServiceImpl implements PermissionService {
     private final PermissionRepository permissionRepository;
     private final PermissionMapper permissionMapper;
 
+
+    @Override
+    public Page<PermissionDTO> findAll(Pageable pageable) {
+        return  permissionRepository.findAll(pageable).map(permissionMapper::permissionToPermissionDTO);
+    }
 
     @Override
     public Optional<PermissionDTO> findByName(String name) {
