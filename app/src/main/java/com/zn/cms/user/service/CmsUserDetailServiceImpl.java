@@ -14,7 +14,7 @@ import java.util.stream.Collectors;
 @Service
 public class CmsUserDetailServiceImpl implements UserDetailsService {
 
-    private final IUserService userService;
+    private final UserService userService;
 
 
 

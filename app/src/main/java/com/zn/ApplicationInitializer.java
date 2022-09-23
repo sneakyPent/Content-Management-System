@@ -1,8 +1,8 @@
 package com.zn;
 
-import com.zn.cms.permission.service.IPermissionService;
-import com.zn.cms.role.service.IRoleService;
-import com.zn.cms.user.service.IUserService;
+import com.zn.cms.permission.service.PermissionService;
+import com.zn.cms.role.service.RoleService;
+import com.zn.cms.user.service.UserService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.CommandLineRunner;
@@ -14,9 +14,9 @@ import java.util.Collections;
 @Component
 public class ApplicationInitializer implements CommandLineRunner {
 
-    private final IPermissionService permissionService;
-    private final IRoleService roleService;
-    private final IUserService userService;
+    private final PermissionService permissionService;
+    private final RoleService roleService;
+    private final UserService userService;
 
     @Value("${application.security.user.admin}")
     private String adminUser;

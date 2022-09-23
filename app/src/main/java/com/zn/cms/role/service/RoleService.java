@@ -5,7 +5,7 @@ import com.zn.cms.role.dto.RoleDTO;
 import java.util.List;
 import java.util.Optional;
 
-public interface IRoleService {
+public interface RoleService {
 
     Optional<RoleDTO> findByName(String roleName);
 

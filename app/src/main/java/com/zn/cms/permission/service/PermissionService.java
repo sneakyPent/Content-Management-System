@@ -5,7 +5,7 @@ import com.zn.cms.permission.dto.PermissionDTO;
 import java.util.List;
 import java.util.Optional;
 
-public interface IPermissionService {
+public interface PermissionService {
 
     Optional<PermissionDTO> findByName(String name);
 
