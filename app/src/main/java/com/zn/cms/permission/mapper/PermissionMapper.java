@@ -2,15 +2,14 @@ package com.zn.cms.permission.mapper;
 
 import com.zn.cms.permission.dto.PermissionDTO;
 import com.zn.cms.permission.model.Permission;
-import org.mapstruct.AfterMapping;
-import org.mapstruct.BeforeMapping;
-import org.mapstruct.Mapper;
-import org.mapstruct.MappingTarget;
+import org.mapstruct.*;
 
 
 @Mapper(componentModel = "Spring")
 public interface PermissionMapper {
 
+    @Mapping(target = "id", ignore = true)
+    @Mapping(target = "roles", ignore = true)
     Permission permissionDTOToPermission(PermissionDTO permissionDTO);
 
     PermissionDTO permissionToPermissionDTO(Permission permission);
