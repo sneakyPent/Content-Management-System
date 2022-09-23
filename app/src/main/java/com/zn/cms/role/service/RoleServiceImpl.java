@@ -7,6 +7,8 @@ import com.zn.cms.role.mapper.RoleMapper;
 import com.zn.cms.role.model.Role;
 import com.zn.cms.role.repository.RoleRepository;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import javax.transaction.Transactional;
@@ -23,6 +25,11 @@ public class RoleServiceImpl implements RoleService {
     private final RoleMapper roleMapper;
     private final PermissionRepository permissionRepository;
 
+
+    @Override
+    public Page<RoleDTO> findAll(Pageable pageable) {
+        return roleRepository.findAll(pageable).map(roleMapper::roleToRoleDTO);
+    }
 
     @Override
     public Optional<RoleDTO> findByName(String roleName) {
