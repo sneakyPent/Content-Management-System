@@ -15,8 +15,4 @@ public class RoleDTO {
     private String name;
     private Collection<Permission> permissions;
 
-    public RoleDTO(Role role) {
-        this.name = role.getName();
-        this.permissions = this.getPermissions();
-    }
 }

@@ -24,7 +24,7 @@ public class RoleServiceImpl implements RoleService {
 
     @Override
     public Optional<RoleDTO> findByName(String roleName) {
-        return roleRepository.findByName(roleName).map(RoleDTO::new);
+        return roleRepository.findByName(roleName).map(roleMapper::roleToRoleDTO);
     }
 
     @Override
@@ -34,7 +34,7 @@ public class RoleServiceImpl implements RoleService {
 
 
     public Optional<RoleDTO> createRoleIfNotFound(String name, List<String> permissionNames) {
-        Optional<RoleDTO> role = roleRepository.findByName(name).map(RoleDTO::new);
+        Optional<RoleDTO> role = roleRepository.findByName(name).map(roleMapper::roleToRoleDTO);
         List<Permission> permissions = permissionRepository.findAllByNameIn(permissionNames);
         if (!role.isPresent()) {
             roleRepository.save(

@@ -1,6 +1,6 @@
 package com.zn.cms.user.service;
 
-import com.zn.cms.role.model.Role;
+import com.zn.cms.role.dto.RoleDTO;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -23,7 +23,7 @@ public class CmsUserDetailServiceImpl implements UserDetailsService {
         return userService.findByUsername(username).map(
                 user -> new org.springframework.security.core.userdetails.User(user.getUsername(),
                         user.getPassword(),
-                        user.getRoles().stream().map(Role::getName).map(SimpleGrantedAuthority::new).collect(Collectors.toList()))
+                        user.getRoles().stream().map(RoleDTO::getName).map(SimpleGrantedAuthority::new).collect(Collectors.toList()))
         ).orElseThrow(() -> new UsernameNotFoundException("Email " + username + "was not found"));
     }
 }
