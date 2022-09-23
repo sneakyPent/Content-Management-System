@@ -1,5 +1,6 @@
 package com.zn.cms.user.dto;
 
+import com.zn.cms.role.dto.RoleDTO;
 import com.zn.cms.role.model.Role;
 import com.zn.cms.user.model.User;
 import lombok.AllArgsConstructor;
@@ -19,14 +20,6 @@ public class UserDTO {
     private String lastName;
     private String password;
     private String email;
-    private Collection<Role> roles;
+    private Collection<RoleDTO> roles;
 
-    public UserDTO(User user) {
-        this.username = user.getUsername();
-        this.firstName = user.getFirstName();
-        this.lastName = user.getLastName();
-        this.password = user.getPassword();
-        this.email = user.getEmail();
-        this.roles = user.getRoles();
-    }
 }

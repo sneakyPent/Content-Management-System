@@ -3,6 +3,7 @@ package com.zn.cms.user.service;
 import com.zn.cms.role.model.Role;
 import com.zn.cms.role.repository.RoleRepository;
 import com.zn.cms.user.dto.UserDTO;
+import com.zn.cms.user.mapper.UserMapper;
 import com.zn.cms.user.model.User;
 import com.zn.cms.user.repository.UserRepository;
 import lombok.RequiredArgsConstructor;
@@ -19,6 +20,7 @@ import java.util.Optional;
 public class UserServiceImpl implements UserService {
     private final UserRepository userRepository;
     private final RoleRepository roleRepository;
+    private final UserMapper userMapper;
 
     private final PasswordEncoder passwordEncoder;
 
@@ -45,12 +47,12 @@ public class UserServiceImpl implements UserService {
                             .roles(roles)
                             .build());
         }
-        return null;
+        return userOpt.map(userMapper::userToUserDTO);
     }
 
 
     public Optional<UserDTO> findByUsername(String username) {
-        return userRepository.findByUsername(username).map(UserDTO::new);
+        return userRepository.findByUsername(username).map(userMapper::userToUserDTO);
 
     }
 }
