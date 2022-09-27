@@ -6,9 +6,11 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.security.access.prepost.PreAuthorize;
+import org.springframework.web.bind.annotation.*;
+
+import java.util.Optional;
+
 import static com.zn.cms.utils.Router.ROLE;
 
 @RequiredArgsConstructor
@@ -24,4 +26,14 @@ public class RoleController {
         return ResponseEntity.ok(roleService.findAll(pageable));
     }
 
+    @PutMapping("")
+    @PreAuthorize("hasRole('ROLE_ADMIN')")
+    public ResponseEntity<RoleDTO> modifyRole(@RequestBody RoleDTO newRoleDTO ){
+        roleService.modifyRole(newRoleDTO);
+//        System.out.println(roleDTO.getName());
+//        System.out.println(roleDTO.getPermissions());
+
+        return ResponseEntity.ok(null);
+//        return ResponseEntity.created(roleService.createRoleIfNotFound());
+    }
 }
