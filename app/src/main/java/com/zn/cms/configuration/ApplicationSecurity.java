@@ -70,6 +70,7 @@ public class ApplicationSecurity {
 //                .logout().permitAll();
 
         http.headers().frameOptions().sameOrigin();
+        http.csrf().disable();
 
         return http.build();
     }
