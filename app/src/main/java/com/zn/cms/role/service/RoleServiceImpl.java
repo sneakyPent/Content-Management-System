@@ -52,4 +52,12 @@ public class RoleServiceImpl implements RoleService {
         }
         return role;
     }
+
+    public Optional<RoleDTO> modifyRole(RoleDTO roleDTO){
+        Optional<RoleDTO> roleOpt = findByName(roleDTO.getName());
+        if(roleOpt.isPresent()){
+
+        }
+        return null;
+    }
 }
