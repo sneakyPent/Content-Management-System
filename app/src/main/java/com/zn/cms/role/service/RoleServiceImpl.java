@@ -1,5 +1,6 @@
 package com.zn.cms.role.service;
 
+import com.zn.cms.permission.mapper.PermissionMapper;
 import com.zn.cms.permission.model.Permission;
 import com.zn.cms.permission.repository.PermissionRepository;
 import com.zn.cms.role.dto.RoleDTO;
@@ -23,6 +24,7 @@ public class RoleServiceImpl implements RoleService {
 
     private final RoleRepository roleRepository;
     private final RoleMapper roleMapper;
+    private final PermissionMapper permissionMapper;
     private final PermissionRepository permissionRepository;
 
 
