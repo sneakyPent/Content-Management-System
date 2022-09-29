@@ -47,10 +47,10 @@ public class RoleController {
                 map(ResponseEntity::ok).orElseGet(() -> ResponseEntity.badRequest().build());
     }
 
-    @PutMapping("/{name}")
+    @PutMapping("/{id}")
     @PreAuthorize("hasAuthority('UPDATE_ROLE')")
-    public ResponseEntity<RoleDTO> updateAllRoles(@RequestBody RoleDTO roleDTO) {
-        return roleService.updateRole(roleDTO).
+    public ResponseEntity<RoleDTO> updateRole(@PathVariable("id") Long id, @RequestBody RoleDTO roleDTO) {
+        return roleService.updateRole(id, roleDTO).
                 map(ResponseEntity::ok).orElseGet(() -> ResponseEntity.badRequest().build());
     }
 
