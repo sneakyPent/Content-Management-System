@@ -8,6 +8,8 @@ import com.zn.cms.user.model.User;
 import com.zn.cms.user.repository.UserRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
@@ -52,6 +54,11 @@ public class UserServiceImpl implements UserService {
         return userOpt.map(userMapper::userToUserDTO);
     }
 
+
+    @Override
+    public Page<UserDTO> findAll(Pageable pageable) {
+        return userRepository.findAll(pageable).map(userMapper::userToUserDTO);
+    }
 
     public Optional<UserDTO> findByUsername(String username) {
         return userRepository.findByUsername(username).map(userMapper::userToUserDTO);
