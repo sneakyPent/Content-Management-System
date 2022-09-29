@@ -39,6 +39,11 @@ public class RoleServiceImpl implements RoleService {
     }
 
     @Override
+    public Optional<RoleDTO> findById(Long id) {
+        return roleRepository.findById(id).map(roleMapper::roleToRoleDTO);
+    }
+
+    @Override
     public List<RoleDTO> findAllByNameIn(List<String> roleNames) {
         return roleRepository.findAllByNameIn(roleNames).stream().map(roleMapper::roleToRoleDTO).collect(Collectors.toList());
     }
