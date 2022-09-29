@@ -27,15 +27,15 @@ public class ApplicationInitializer implements CommandLineRunner {
 
     @Override
     public void run(String... args) {
-        permissionService.createPermissionIfNotFound("READ_PRIVILEGE");
-        permissionService.createPermissionIfNotFound("READ_ROLE");
-        permissionService.createPermissionIfNotFound("WRITE_ROLE");
-        permissionService.createPermissionIfNotFound("UPDATE_ROLE");
-        permissionService.createPermissionIfNotFound("DELETE_ROLE");
-        permissionService.createPermissionIfNotFound("READ_USER");
-        permissionService.createPermissionIfNotFound("WRITE_USER");
-        permissionService.createPermissionIfNotFound("UPDATE_USER");
-        permissionService.createPermissionIfNotFound("DELETE_USER");
+        permissionService.createPermissionIfNotFound("READ_PRIVILEGE", Arrays.asList());
+         permissionService.createPermissionIfNotFound("READ_ROLE", Arrays.asList());
+         permissionService.createPermissionIfNotFound("READ_USER", Arrays.asList());
+         permissionService.createPermissionIfNotFound("WRITE_ROLE", Arrays.asList("READ_ROLE"));
+         permissionService.createPermissionIfNotFound("WRITE_USER", Arrays.asList("READ_USER"));
+         permissionService.createPermissionIfNotFound("UPDATE_ROLE", Arrays.asList("READ_ROLE"));
+         permissionService.createPermissionIfNotFound("UPDATE_USER", Arrays.asList("READ_USER"));
+        permissionService.createPermissionIfNotFound("DELETE_ROLE", Arrays.asList("READ_ROLE"));
+        permissionService.createPermissionIfNotFound("DELETE_USER", Arrays.asList("READ_USER"));
 
         roleService.createRoleIfNotFound("ROLE_ADMIN", Arrays.asList("READ_PRIVILEGE","READ_USER","WRITE_USER","UPDATE_USER","DELETE_USER"));
         roleService.createRoleIfNotFound("ROLE_CONTRIBUTOR", Collections.singletonList("READ_PRIVILEGE"));
