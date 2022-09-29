@@ -34,16 +34,16 @@ public class UserServiceImpl implements UserService {
 
 
     public Optional<UserDTO> createUserIfNotFound(
-            String userName, String password, List<String> roleNames) {
-        Optional<User> userOpt = userRepository.findByUsername(adminUser);
+            String email, String firstName, String lastName, String userName, String password, List<String> roleNames) {
+        Optional<User> userOpt = userRepository.findByUsername(userName);
         List<Role> roles = roleRepository.findAllByNameIn(roleNames);
         if (!userOpt.isPresent()) {
             userRepository.save(
                     User.builder()
-                            .email("zaharioudakis@yahoo.com")
-                            .firstName("Nikolas")
-                            .lastName("Zacharioudakis")
-                            .username(adminUser)
+                            .email(email)
+                            .firstName(firstName)
+                            .lastName(lastName)
+                            .username(userName)
                             .password(passwordEncoder.encode(password))
                             .enabled(true)
                             .roles(roles)
