@@ -1,10 +1,7 @@
 package com.zn.cms.permission.model;
 
 import com.zn.cms.role.model.Role;
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.Data;
-import lombok.NoArgsConstructor;
+import lombok.*;
 
 import javax.persistence.*;
 import java.util.List;
@@ -29,6 +26,8 @@ public class Permission {
     private List<Permission> dependsOnPermissions;
 
     @ManyToMany(mappedBy = "permissions")
+    @ToString.Exclude
+    @EqualsAndHashCode.Exclude
     private List<Role> roles;
 
 }
