@@ -1,5 +1,6 @@
 package com.zn.cms.role.controller;
 
+import com.zn.cms.permission.dto.PermissionDTO;
 import com.zn.cms.role.dto.RoleDTO;
 import com.zn.cms.role.service.RoleService;
 import lombok.RequiredArgsConstructor;
@@ -10,6 +11,7 @@ import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 import static com.zn.cms.utils.Router.ROLE;
 
@@ -27,14 +29,35 @@ public class RoleController {
         return ResponseEntity.ok(roleService.findAll(pageable));
     }
 
-    @PutMapping("")
-    @PreAuthorize("hasRole('ROLE_ADMIN')")
-    public ResponseEntity<RoleDTO> modifyRole(@RequestBody RoleDTO newRoleDTO ){
-        roleService.modifyRole(newRoleDTO);
-//        System.out.println(roleDTO.getName());
-//        System.out.println(roleDTO.getPermissions());
+    @GetMapping("/{name}")
+    @PreAuthorize("hasAuthority('READ_ROLE')")
+    public ResponseEntity<Optional<RoleDTO>> findRole(@PathVariable String name) {
 
-        return ResponseEntity.ok(null);
-//        return ResponseEntity.created(roleService.createRoleIfNotFound());
+        return ResponseEntity.ok(roleService.findByName(name));
+    }
+
+    @PostMapping
+    @ResponseBody
+    @PreAuthorize("hasAuthority('CREATE_ROLE')")
+    public ResponseEntity<RoleDTO> createRole(@RequestBody RoleDTO roleDTO) {
+        System.out.println(roleDTO.getName());
+        System.out.println(roleDTO.getPermissions());
+        return roleService.createRoleIfNotFound(roleDTO.getName(), roleDTO.getPermissions().stream().
+                map(PermissionDTO::getName).collect(Collectors.toList())).
+                map(ResponseEntity::ok).orElseGet(() -> ResponseEntity.badRequest().build());
+    }
+
+    @PutMapping("/{name}")
+    @PreAuthorize("hasAuthority('UPDATE_ROLE')")
+    public ResponseEntity<RoleDTO> updateAllRoles(@RequestBody RoleDTO roleDTO) {
+        return roleService.updateRole(roleDTO).
+                map(ResponseEntity::ok).orElseGet(() -> ResponseEntity.badRequest().build());
+    }
+
+    @DeleteMapping("/{name}")
+    @PreAuthorize("hasAuthority('DELETE_ROLE')")
+    public ResponseEntity<String> deleteRoles(@PathVariable String name) {
+
+        return ResponseEntity.ok("Delete role " + name);
     }
 }
