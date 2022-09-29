@@ -20,8 +20,9 @@ public class RoleController {
 
     private final RoleService roleService;
 
-    @GetMapping("/")
-    public ResponseEntity<Page<RoleDTO>> getAllRoles(Pageable pageable) {
+    @GetMapping
+    @PreAuthorize("hasAuthority('READ_ROLE')")
+    public ResponseEntity<Page<RoleDTO>> findAllRoles(Pageable pageable) {
 
         return ResponseEntity.ok(roleService.findAll(pageable));
     }
