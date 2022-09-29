@@ -10,7 +10,6 @@ import org.mapstruct.*;
         })
 public interface RoleMapper {
 
-    @Mapping(target = "id", ignore = true)
     @Mapping(target = "users", ignore = true)
     Role roleDTOToRole(RoleDTO roleDTO);
 

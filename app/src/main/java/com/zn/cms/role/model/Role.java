@@ -19,19 +19,16 @@ import java.util.List;
 public class Role {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.TABLE)
-    private Long id;
+    private String name;
 
     @ManyToMany(mappedBy = "roles")
     private List<User> users;
 
     @ManyToMany
     @JoinTable(name = "roles_permissions",
-            joinColumns = @JoinColumn(name = "role_id", referencedColumnName = "id"),
+            joinColumns = @JoinColumn(name = "role_name", referencedColumnName = "name"),
             inverseJoinColumns = @JoinColumn(name = "permission_name", referencedColumnName = "name"))
     private List<Permission> permissions;
-
-    private String name;
 
 
 }
