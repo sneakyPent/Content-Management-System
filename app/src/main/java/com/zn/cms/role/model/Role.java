@@ -17,7 +17,9 @@ import java.util.List;
 public class Role {
 
     @Id
-    private String name;
+    @Column(unique = true, nullable = false)
+    @GeneratedValue(strategy = GenerationType.TABLE)
+    private Long id;
 
     @ManyToMany(mappedBy = "roles")
     @ToString.Exclude
@@ -26,9 +28,10 @@ public class Role {
 
     @ManyToMany
     @JoinTable(name = "roles_permissions",
-            joinColumns = @JoinColumn(name = "role_name", referencedColumnName = "name"),
+            joinColumns = @JoinColumn(name = "role_id", referencedColumnName = "id"),
             inverseJoinColumns = @JoinColumn(name = "permission_name", referencedColumnName = "name"))
     private List<Permission> permissions;
 
+    private String name;
 
 }

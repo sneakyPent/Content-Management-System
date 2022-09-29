@@ -11,6 +11,7 @@ import java.util.Collection;
 @Builder
 public class RoleDTO {
 
+    private Long id;
     private String name;
     private Collection<PermissionDTO> permissions;
 
