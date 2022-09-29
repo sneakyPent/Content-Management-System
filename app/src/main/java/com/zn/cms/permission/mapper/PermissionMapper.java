@@ -8,7 +8,6 @@ import org.mapstruct.*;
 @Mapper(componentModel = "Spring")
 public interface PermissionMapper {
 
-    @Mapping(target = "id", ignore = true)
     @Mapping(target = "roles", ignore = true)
     Permission permissionDTOToPermission(PermissionDTO permissionDTO);
 

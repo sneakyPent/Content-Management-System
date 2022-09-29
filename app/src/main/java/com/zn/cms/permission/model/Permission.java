@@ -18,9 +18,6 @@ import java.util.List;
 public class Permission {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.TABLE)
-    private Long id;
-
     private String name;
 
     @ManyToMany(mappedBy = "permissions")
