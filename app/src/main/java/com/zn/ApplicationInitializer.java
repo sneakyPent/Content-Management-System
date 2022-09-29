@@ -21,26 +21,37 @@ public class ApplicationInitializer implements CommandLineRunner {
 
     @Value("${application.security.user.admin}")
     private String adminUser;
+    @Value("${application.security.user.contributor}")
+    private String contributorUser;
+    @Value("${application.security.user.designer}")
+    private String designerUser;
 
     @Value("${application.security.user.password}")
     private String password;
 
     @Override
     public void run(String... args) {
-        permissionService.createPermissionIfNotFound("READ_PRIVILEGE", Arrays.asList());
-         permissionService.createPermissionIfNotFound("READ_ROLE", Arrays.asList());
-         permissionService.createPermissionIfNotFound("READ_USER", Arrays.asList());
-         permissionService.createPermissionIfNotFound("WRITE_ROLE", Arrays.asList("READ_ROLE"));
-         permissionService.createPermissionIfNotFound("WRITE_USER", Arrays.asList("READ_USER"));
-         permissionService.createPermissionIfNotFound("UPDATE_ROLE", Arrays.asList("READ_ROLE"));
-         permissionService.createPermissionIfNotFound("UPDATE_USER", Arrays.asList("READ_USER"));
+        permissionService.createPermissionIfNotFound("READ_PERMISSION", Arrays.asList());
+        permissionService.createPermissionIfNotFound("READ_ROLE", Arrays.asList());
+        permissionService.createPermissionIfNotFound("CREATE_ROLE", Arrays.asList("READ_ROLE"));
         permissionService.createPermissionIfNotFound("DELETE_ROLE", Arrays.asList("READ_ROLE"));
+        permissionService.createPermissionIfNotFound("UPDATE_ROLE", Arrays.asList("READ_ROLE"));
+        permissionService.createPermissionIfNotFound("READ_USER", Arrays.asList());
+        permissionService.createPermissionIfNotFound("CREATE_USER", Arrays.asList("READ_USER"));
+        permissionService.createPermissionIfNotFound("UPDATE_USER", Arrays.asList("READ_USER"));
         permissionService.createPermissionIfNotFound("DELETE_USER", Arrays.asList("READ_USER"));
 
-        roleService.createRoleIfNotFound("ROLE_ADMIN", Arrays.asList("READ_PRIVILEGE","READ_USER","WRITE_USER","UPDATE_USER","DELETE_USER"));
-        roleService.createRoleIfNotFound("ROLE_CONTRIBUTOR", Collections.singletonList("READ_PRIVILEGE"));
-        roleService.createRoleIfNotFound("ROLE_DESIGN", Collections.singletonList("READ_PRIVILEGE"));
-        userService.createUserIfNotFound(adminUser, password, Collections.singletonList("ROLE_ADMIN"));
+        roleService.createRoleIfNotFound("ROLE_ADMIN", Arrays.asList("READ_PERMISSION","CREATE_ROLE","DELETE_ROLE",
+                "UPDATE_ROLE","CREATE_USER","UPDATE_USER","DELETE_USER"));
+        roleService.createRoleIfNotFound("ROLE_CONTRIBUTOR", Arrays.asList("UPDATE_ROLE","UPDATE_USER"));
+        roleService.createRoleIfNotFound("ROLE_DESIGN", Collections.singletonList("READ_USER"));
+
+        userService.createUserIfNotFound("zaharioudakis@yahoo.com", "Nikolas", "Zacharioudakis",
+                adminUser, password, Collections.singletonList("ROLE_ADMIN"));
+        userService.createUserIfNotFound("contributor@yahoo.com", "Vasilis", "Zacharioudakis",
+                contributorUser, password, Collections.singletonList("ROLE_CONTRIBUTOR"));
+        userService.createUserIfNotFound("designer@yahoo.com", "Antonis", "Zacharioudakis",
+                designerUser, password, Collections.singletonList("ROLE_DESIGN"));
 
     }
 }
