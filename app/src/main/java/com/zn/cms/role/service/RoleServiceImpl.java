@@ -46,9 +46,9 @@ public class RoleServiceImpl implements RoleService {
         Optional<RoleDTO> role = roleRepository.findByName(name).map(roleMapper::roleToRoleDTO);
         List<Permission> permissions = permissionRepository.findAllByNameIn(permissionNames);
         if (!role.isPresent()) {
-            roleRepository.save(
+            return Optional.of(roleRepository.save(
                     Role.builder()
-                            .name(name).permissions(permissions).build());
+                            .name(name).permissions(permissions).build())).map(roleMapper::roleToRoleDTO);
         }
         return role;
     }
