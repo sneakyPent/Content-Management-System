@@ -15,6 +15,7 @@ import java.util.List;
 public class Permission {
 
     @Id
+    @Column(unique = true, nullable = false)
     private String name;
 
     @ManyToMany
