@@ -1,17 +1,25 @@
 package com.zn.cms.user.controller;
 
+import com.zn.cms.user.dto.UserDTO;
+import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Page;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import com.zn.cms.user.service.UserService;
+
+import org.springframework.data.domain.Pageable;
 
 import static com.zn.cms.utils.Router.USER;
 
+@RequiredArgsConstructor
 @RestController
 @RequestMapping(USER)
 public class UserController {
 
+    private final UserService userService;
     @GetMapping("/")
-    public ResponseEntity<String> findAll(){
-        return ResponseEntity.ok("Getting all users!");
+    public ResponseEntity<Page<UserDTO>> findAll(Pageable pageable){
+        return ResponseEntity.ok(userService.findAll(pageable));
     }
 
     @GetMapping("/{id}")
