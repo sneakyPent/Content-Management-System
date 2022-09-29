@@ -26,6 +26,7 @@ public class PermissionController {
     public final PermissionService permissionService;
 
     @GetMapping("/")
+    @PreAuthorize("hasAuthority('READ_PERMISSION')")
     public ResponseEntity<Page<PermissionDTO>> getAllPermissions(Pageable pageable) {
 
         return ResponseEntity.ok(permissionService.findAll(pageable));
