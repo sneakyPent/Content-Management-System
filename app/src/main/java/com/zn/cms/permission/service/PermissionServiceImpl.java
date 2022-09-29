@@ -37,12 +37,14 @@ public class PermissionServiceImpl implements PermissionService {
         return permissionRepository.findAllByNameIn(permissionNames).stream().map(permissionMapper::permissionToPermissionDTO).collect(Collectors.toList());
     }
 
-    public Optional<PermissionDTO> createPermissionIfNotFound(String name) {
+    public Optional<PermissionDTO> createPermissionIfNotFound(String name, List<String> dependsOnPermissions) {
         Optional<PermissionDTO> permission = permissionRepository.findByName(name).map(permissionMapper::permissionToPermissionDTO);
+        List<Permission> depPermissions = permissionRepository.findAllByNameIn(dependsOnPermissions);
         if (!permission.isPresent()) {
             permissionRepository.save(
                     Permission.builder()
-                            .name(name).build());
+                            .name(name)
+                            .dependsOnPermissions(depPermissions).build());
         }
         return permission;
     }
