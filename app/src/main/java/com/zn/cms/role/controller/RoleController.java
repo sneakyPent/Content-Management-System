@@ -54,10 +54,10 @@ public class RoleController {
                 map(ResponseEntity::ok).orElseGet(() -> ResponseEntity.badRequest().build());
     }
 
-    @DeleteMapping("/{name}")
+    @DeleteMapping("/{id}")
     @PreAuthorize("hasAuthority('DELETE_ROLE')")
-    public ResponseEntity<String> deleteRoles(@PathVariable String name) {
-
-        return ResponseEntity.ok("Delete role " + name);
+    public ResponseEntity<?> deleteRole(@PathVariable Long id) {
+        roleService.deleteRole(id);
+        return ResponseEntity.noContent().build();
     }
 }

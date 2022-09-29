@@ -21,4 +21,6 @@ public interface RoleService {
 
     Optional<RoleDTO> updateRole(Long id, RoleDTO roleDTO);
 
+    void deleteRole(Long id);
+
 }
