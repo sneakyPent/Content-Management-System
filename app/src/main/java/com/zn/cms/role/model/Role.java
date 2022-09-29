@@ -2,14 +2,12 @@ package com.zn.cms.role.model;
 
 import com.zn.cms.user.model.User;
 import com.zn.cms.permission.model.Permission;
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.Data;
-import lombok.NoArgsConstructor;
+import lombok.*;
 
 import javax.persistence.*;
 import java.util.List;
 
+@ToString
 @Entity
 @NoArgsConstructor
 @AllArgsConstructor
@@ -22,6 +20,8 @@ public class Role {
     private String name;
 
     @ManyToMany(mappedBy = "roles")
+    @ToString.Exclude
+    @EqualsAndHashCode.Exclude
     private List<User> users;
 
     @ManyToMany
