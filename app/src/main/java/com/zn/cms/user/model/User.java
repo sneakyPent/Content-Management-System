@@ -1,14 +1,12 @@
 package com.zn.cms.user.model;
 
 import com.zn.cms.role.model.Role;
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.Data;
-import lombok.NoArgsConstructor;
+import lombok.*;
 
 import javax.persistence.*;
 import java.util.List;
 
+@ToString
 @Entity
 @NoArgsConstructor
 @AllArgsConstructor
@@ -44,7 +42,6 @@ public class User {
             joinColumns = @JoinColumn(name = "user_id", referencedColumnName = "id"),
             inverseJoinColumns = @JoinColumn(name = "role_id", referencedColumnName = "id"))
     private List<Role> roles;
-
 
 
 }
