@@ -53,11 +53,14 @@ public class RoleServiceImpl implements RoleService {
         return role;
     }
 
-    public Optional<RoleDTO> modifyRole(RoleDTO roleDTO){
-        Optional<RoleDTO> roleOpt = findByName(roleDTO.getName());
-        if(roleOpt.isPresent()){
-
+    public Optional<RoleDTO> updateRole(RoleDTO newRoleDTO){
+        Optional<Role> oldRoleOpt = findByName(newRoleDTO.getName()).map(roleMapper::roleDTOToRole);
+        if(oldRoleOpt.isPresent()){
+            Role role = oldRoleOpt.get();
+            role.setName(newRoleDTO.getName());
+            role.setPermissions(newRoleDTO.getPermissions().stream().map(permissionMapper::permissionDTOToPermission).collect(Collectors.toList()));
+            return Optional.of(roleRepository.save(role)).map(roleMapper::roleToRoleDTO);
         }
-        return null;
+        return Optional.empty();
     }
 }
