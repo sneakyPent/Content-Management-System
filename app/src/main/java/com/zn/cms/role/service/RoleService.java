@@ -19,6 +19,6 @@ public interface RoleService {
 
     Optional<RoleDTO> createRoleIfNotFound(String name, List<String> permissionNames);
 
-    Optional<RoleDTO> updateRole(RoleDTO roleDTO);
+    Optional<RoleDTO> updateRole(Long id, RoleDTO roleDTO);
 
 }

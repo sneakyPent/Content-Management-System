@@ -60,8 +60,9 @@ public class RoleServiceImpl implements RoleService {
         return role;
     }
 
-    public Optional<RoleDTO> updateRole(RoleDTO newRoleDTO){
-        Optional<Role> oldRoleOpt = findByName(newRoleDTO.getName()).map(roleMapper::roleDTOToRole);
+    public Optional<RoleDTO> updateRole(Long id, RoleDTO newRoleDTO){
+
+        Optional<Role> oldRoleOpt = roleRepository.findById(id);
         if(oldRoleOpt.isPresent()){
             Role role = oldRoleOpt.get();
             role.setName(newRoleDTO.getName());
