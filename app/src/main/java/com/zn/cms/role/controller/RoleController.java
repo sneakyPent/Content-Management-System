@@ -25,14 +25,12 @@ public class RoleController {
     @GetMapping
     @PreAuthorize("hasAuthority('READ_ROLE')")
     public ResponseEntity<Page<RoleDTO>> findAllRoles(Pageable pageable) {
-
         return ResponseEntity.ok(roleService.findAll(pageable));
     }
 
     @GetMapping("/{name}")
     @PreAuthorize("hasAuthority('READ_ROLE')")
     public ResponseEntity<Optional<RoleDTO>> findRole(@PathVariable String name) {
-
         return ResponseEntity.ok(roleService.findByName(name));
     }
 
@@ -40,10 +38,9 @@ public class RoleController {
     @ResponseBody
     @PreAuthorize("hasAuthority('CREATE_ROLE')")
     public ResponseEntity<RoleDTO> createRole(@RequestBody RoleDTO roleDTO) {
-        System.out.println(roleDTO.getName());
-        System.out.println(roleDTO.getPermissions());
-        return roleService.createRoleIfNotFound(roleDTO.getName(), roleDTO.getPermissions().stream().
-                map(PermissionDTO::getName).collect(Collectors.toList())).
+        return roleService.createRoleIfNotFound(roleDTO.getName(),
+                roleDTO.getPermissions().stream().
+                        map(PermissionDTO::getName).collect(Collectors.toList())).
                 map(ResponseEntity::ok).orElseGet(() -> ResponseEntity.badRequest().build());
     }
 
