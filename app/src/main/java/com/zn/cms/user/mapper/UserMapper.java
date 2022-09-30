@@ -13,7 +13,6 @@ public interface UserMapper {
 
     UserDTO userToUserDTO(User user);
 
-    @Mapping(target = "id", ignore = true)
     @Mapping(target = "enabled", ignore = true)
     @Mapping(target = "tokenExpired", ignore = true)
     User userDTOToUser(UserDTO userDTO);
