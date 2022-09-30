@@ -3,6 +3,7 @@ package com.zn.cms.user.service;
 import com.zn.cms.role.mapper.RoleMapper;
 import com.zn.cms.role.model.Role;
 import com.zn.cms.role.repository.RoleRepository;
+import com.zn.cms.role.service.RoleService;
 import com.zn.cms.user.dto.UserDTO;
 import com.zn.cms.user.mapper.UserMapper;
 import com.zn.cms.user.model.User;
@@ -27,6 +28,7 @@ public class UserServiceImpl implements UserService {
     private final RoleRepository roleRepository;
     private final UserMapper userMapper;
     private final RoleMapper roleMapper;
+    private final RoleService roleService;
 
     private final PasswordEncoder passwordEncoder;
 
@@ -67,7 +69,13 @@ public class UserServiceImpl implements UserService {
             oldUser.setFirstName(userDTO.getFirstName());
             oldUser.setLastName(userDTO.getLastName());
             oldUser.setEmail(userDTO.getEmail());
-            oldUser.setRoles(userDTO.getRoles().stream().map(roleMapper::roleDTOToRole).collect(Collectors.toList()));
+
+            List<Role> roles = userDTO.getRoles().stream()
+                    .map(roleMapper::roleDTOToRole).collect(Collectors.toList()).stream()
+                    .map(role -> roleService.findByNameOrId(role.getId(), role.getName())
+                            .map(roleMapper::roleDTOToRole)).collect(Collectors.toList()).stream()
+                    .map(Optional::get).collect(Collectors.toList());
+            oldUser.setRoles(roles);
             return Optional.of(userRepository.save(oldUser)).map(userMapper::userToUserDTO);
         }
         return Optional.empty();
