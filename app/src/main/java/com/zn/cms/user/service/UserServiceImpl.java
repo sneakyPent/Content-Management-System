@@ -73,8 +73,14 @@ public class UserServiceImpl implements UserService {
         return Optional.empty();
     }
 
-    public void deleteUser(Long id) {
-        userRepository.deleteById(id);
+    public boolean deleteUser(Long id) {
+        Optional<User> user = (userRepository.findById(id));
+        if (user.isPresent()) {
+            userRepository.delete(user.get());
+            return true;
+        } else {
+            return false;
+        }
     }
 
 

@@ -51,7 +51,10 @@ public class UserController {
     @DeleteMapping("/{id}")
     @PreAuthorize("hasAuthority('DELETE_USER')")
     public ResponseEntity<?> deleteUser(@PathVariable Long id) {
-        userService.deleteUser(id);
-        return ResponseEntity.noContent().build();
+        if (userService.deleteUser(id)) {
+            return ResponseEntity.noContent().build();
+        } else {
+            return ResponseEntity.notFound().build();
+        }
     }
 }
