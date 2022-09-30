@@ -13,6 +13,8 @@ public interface RoleService {
 
     Optional<RoleDTO> findByName(String roleName);
 
+    Optional<RoleDTO> findByNameOrId(Long id, String name);
+
     Optional<RoleDTO> findById(Long id);
 
     List<RoleDTO> findAllByNameIn(List<String> roleNames);
