@@ -16,4 +16,7 @@ public interface UserService {
     Optional<UserDTO> createUserIfNotFound(
             String email, String firstName, String lastName, String userName, String password, List<String> roleNames);
 
+    Optional<UserDTO> updateUser(Long id, UserDTO userDTO);
+
+    void deleteUser(Long id);
 }
