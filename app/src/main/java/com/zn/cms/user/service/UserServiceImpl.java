@@ -8,7 +8,6 @@ import com.zn.cms.user.mapper.UserMapper;
 import com.zn.cms.user.model.User;
 import com.zn.cms.user.repository.UserRepository;
 import lombok.RequiredArgsConstructor;
-import org.springframework.beans.factory.annotation.Value;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.security.crypto.password.PasswordEncoder;
@@ -31,13 +30,6 @@ public class UserServiceImpl implements UserService {
 
     private final PasswordEncoder passwordEncoder;
 
-    @Value("${application.security.user.admin}")
-    private String adminUser;
-
-    @Value("${application.security.user.password}")
-    private String password;
-
-
     public Optional<UserDTO> createUserIfNotFound(
             String email, String firstName, String lastName, String userName, String password, List<String> roleNames) {
         Optional<User> userOpt = userRepository.findByUsername(userName);
@@ -56,7 +48,6 @@ public class UserServiceImpl implements UserService {
         }
         return userOpt.map(userMapper::userToUserDTO);
     }
-
 
     @Override
     public Page<UserDTO> findAll(Pageable pageable) {
