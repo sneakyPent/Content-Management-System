@@ -17,6 +17,7 @@ import org.springframework.stereotype.Service;
 import javax.transaction.Transactional;
 import java.util.List;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 @Service
 @Transactional
@@ -40,7 +41,7 @@ public class UserServiceImpl implements UserService {
         Optional<User> userOpt = userRepository.findByUsername(userName);
         List<Role> roles = roleRepository.findAllByNameIn(roleNames);
         if (!userOpt.isPresent()) {
-            userRepository.save(
+            return Optional.of(userRepository.save(
                     User.builder()
                             .email(email)
                             .firstName(firstName)
@@ -49,7 +50,7 @@ public class UserServiceImpl implements UserService {
                             .password(passwordEncoder.encode(password))
                             .enabled(true)
                             .roles(roles)
-                            .build());
+                            .build())).map(userMapper::userToUserDTO);
         }
         return userOpt.map(userMapper::userToUserDTO);
     }
