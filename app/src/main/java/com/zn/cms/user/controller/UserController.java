@@ -45,7 +45,7 @@ public class UserController {
     @PutMapping("/{id}")
     @PreAuthorize("hasAuthority('UPDATE_USER')")
     public ResponseEntity<UserDTO> updateUser(@PathVariable Long id, @RequestBody UserDTO userDTO) {
-        return userService.updateUser(id, userDTO).map(ResponseEntity::ok).orElseGet(() -> ResponseEntity.badRequest().build());
+        return userService.updateUser(id, userDTO).map(ResponseEntity::ok).orElseGet(() -> ResponseEntity.notFound().build());
     }
 
     @DeleteMapping("/{id}")
