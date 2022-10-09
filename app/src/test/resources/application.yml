@@ -24,4 +24,6 @@ application:
     user:
       admin: ${SPRING_SECURITY_USER_NAME:admin}
       password: ${SPRING_SECURITY_USER_PASSWORD:password}
+      contributor: ${SPRING_SECURITY_USER_NAME:contributor}
+      designer: ${SPRING_SECURITY_USER_NAME:designer}
 
