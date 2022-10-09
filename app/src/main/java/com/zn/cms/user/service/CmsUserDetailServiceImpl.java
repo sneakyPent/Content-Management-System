@@ -25,30 +25,38 @@ public class CmsUserDetailServiceImpl implements UserDetailsService {
 
     private final UserService userService;
 
-
-
     @Override
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
         UserDetails usrDet = userService.findByUsername(username).map(
                 user -> new org.springframework.security.core.userdetails.User(user.getUsername(),
                         user.getPassword(),
-                        getAuthorities(user))
+                        getAuthorities(user, new ArrayList<>()))
         ).orElseThrow(() -> new UsernameNotFoundException("Email " + username + "was not found"));
         log.info("UserDetails {}", usrDet);
         return usrDet;
     }
 
-    private Set<GrantedAuthority> getAuthorities(UserDTO userDTO){
-        List<String> authorityNames = new ArrayList<>();
-        for (RoleDTO role : userDTO.getRoles()) {
-            for (PermissionDTO permission : role.getPermissions()) {
-                authorityNames.add(permission.getName());
-                for (PermissionDTO dependsOnPermission : permission.getDependsOnPermissions()) {
-                    authorityNames.add(dependsOnPermission.getName());
+    //    TODO: Before add check if exists
+    private void getAuthoritiesFromPermissions(PermissionDTO permissionDTO, List<String> authorityNames) {
+        if (!authorityNames.contains(permissionDTO.getName())) {
+            if (!permissionDTO.getDependsOnPermissions().isEmpty()) {
+                for (PermissionDTO dependsOnPermission : permissionDTO.getDependsOnPermissions()) {
+                    //                authorityNames = getAuthoritiesFromPermissions(dependsOnPermission, authorityNames);
+                    getAuthoritiesFromPermissions(dependsOnPermission, authorityNames);
+                    //                authorityNames.add(dependsOnPermission.getName());
                 }
             }
+            authorityNames.add(permissionDTO.getName());
         }
-        Set<GrantedAuthority> auths =  authorityNames.stream().map(SimpleGrantedAuthority::new).collect(Collectors.toSet());
+    }
+
+    private Set<GrantedAuthority> getAuthorities(UserDTO userDTO, List<String> authorityNames) {
+        for (RoleDTO role : userDTO.getRoles()) {
+            for (PermissionDTO permission : role.getPermissions()) {
+                getAuthoritiesFromPermissions(permission, authorityNames);
+            }
+        }
+        Set<GrantedAuthority> auths = authorityNames.stream().map(SimpleGrantedAuthority::new).collect(Collectors.toSet());
         log.info("authorityNames {}", auths);
         return auths;
 
