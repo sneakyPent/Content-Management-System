@@ -24,7 +24,7 @@ public class PermissionServiceImpl implements PermissionService {
 
     @Override
     public Page<PermissionDTO> findAll(Pageable pageable) {
-        return  permissionRepository.findAll(pageable).map(permissionMapper::permissionToPermissionDTO);
+        return permissionRepository.findAll(pageable).map(permissionMapper::permissionToPermissionDTO);
     }
 
     @Override
@@ -49,4 +49,19 @@ public class PermissionServiceImpl implements PermissionService {
         return permission;
     }
 
+    @Override
+    public Optional<PermissionDTO> appendDependPermissions(String name, List<String> givenDependsOnPermissionsName) {
+        Optional<Permission> permissionOptional = permissionRepository.findByName(name);
+        List<Permission> newDepPermissionList = permissionRepository.findAllByNameIn(givenDependsOnPermissionsName);
+        if (permissionOptional.isPresent()) {
+            Permission permission = permissionOptional.get();
+            List<Permission> oldDeps = permission.getDependsOnPermissions().stream().collect(Collectors.toList());
+            if (oldDeps.addAll(newDepPermissionList)) {
+//              Get in only if oldDependsOnPermission list has been changed
+                permission.setDependsOnPermissions(oldDeps);
+                return Optional.of(permissionRepository.save(permission)).map(permissionMapper::permissionToPermissionDTO);
+            }
+        }
+        return Optional.empty();
+    }
 }

@@ -16,4 +16,6 @@ public interface PermissionService {
     List<PermissionDTO> findAllByNameIn(List<String> permissionNames);
 
     Optional<PermissionDTO> createPermissionIfNotFound(String name, List<String> dependsOnPermissions);
+
+    Optional<PermissionDTO> appendDependPermissions(String name, List<String> dependsOnPermissions);
 }
