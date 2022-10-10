@@ -10,6 +10,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
+import javax.validation.Valid;
 import java.util.Optional;
 import java.util.stream.Collectors;
 
@@ -37,7 +38,7 @@ public class RoleController {
     @PostMapping
     @ResponseBody
     @PreAuthorize("hasAuthority('CREATE_ROLE')")
-    public ResponseEntity<RoleDTO> createRole(@RequestBody RoleDTO roleDTO) {
+    public ResponseEntity<RoleDTO> createRole(@Valid @RequestBody RoleDTO roleDTO) {
         return roleService.createRoleIfNotFound(roleDTO.getName(),
                 roleDTO.getPermissions().stream().
                         map(PermissionDTO::getName).collect(Collectors.toList())).
@@ -46,7 +47,7 @@ public class RoleController {
 
     @PutMapping("/{id}")
     @PreAuthorize("hasAuthority('UPDATE_ROLE')")
-    public ResponseEntity<RoleDTO> updateRole(@PathVariable("id") Long id, @RequestBody RoleDTO roleDTO) {
+    public ResponseEntity<RoleDTO> updateRole(@Valid @PathVariable("id") Long id, @RequestBody RoleDTO roleDTO) {
         return roleService.updateRole(id, roleDTO).
                 map(ResponseEntity::ok).orElseGet(() -> ResponseEntity.badRequest().build());
     }

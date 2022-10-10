@@ -1,8 +1,10 @@
 package com.zn.cms.user.dto;
 
 import com.zn.cms.role.dto.RoleDTO;
-import com.zn.cms.role.model.Role;
-import com.zn.cms.user.model.User;
+
+import javax.validation.constraints.Email;
+import javax.validation.constraints.NotBlank;
+
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -18,9 +20,13 @@ public class UserDTO {
 
     private Long id;
     private String username;
+    @NotBlank(message = "First name is mandatory")
     private String firstName;
+    @NotBlank(message = "Last name is mandatory")
     private String lastName;
     private String password;
+    @Email
+    @NotBlank(message = "Email is mandatory")
     private String email;
     private Collection<RoleDTO> roles;
 

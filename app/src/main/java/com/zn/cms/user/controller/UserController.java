@@ -10,6 +10,7 @@ import org.springframework.web.bind.annotation.*;
 import com.zn.cms.user.service.UserService;
 import org.springframework.data.domain.Pageable;
 
+import javax.validation.Valid;
 import java.util.stream.Collectors;
 
 import static com.zn.cms.utils.Router.USER;
@@ -35,7 +36,7 @@ public class UserController {
 
     @PostMapping("/")
     @PreAuthorize("hasAuthority('CREATE_USER')")
-    public ResponseEntity<UserDTO> createUser(@RequestBody UserDTO userDTO) {
+    public ResponseEntity<UserDTO> createUser(@Valid @RequestBody UserDTO userDTO) {
         return userService.createUserIfNotFound(userDTO.getEmail(), userDTO.getFirstName(),
                 userDTO.getLastName(), userDTO.getUsername(), userDTO.getPassword(),
                 userDTO.getRoles().stream().map(RoleDTO::getName).collect(Collectors.toList())).
@@ -44,7 +45,7 @@ public class UserController {
 
     @PutMapping("/{id}")
     @PreAuthorize("hasAuthority('UPDATE_USER')")
-    public ResponseEntity<UserDTO> updateUser(@PathVariable Long id, @RequestBody UserDTO userDTO) {
+    public ResponseEntity<UserDTO> updateUser(@Valid @PathVariable Long id, @RequestBody UserDTO userDTO) {
         return userService.updateUser(id, userDTO).map(ResponseEntity::ok).orElseGet(() -> ResponseEntity.notFound().build());
     }
 
