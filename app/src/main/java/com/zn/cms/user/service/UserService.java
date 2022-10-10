@@ -13,7 +13,9 @@ public interface UserService {
 
     Optional<UserDTO> findByUsername(String username);
 
-    Optional<UserDTO> createUserIfNotFound(
+    Optional<UserDTO> createUserIfNotFound(String email, String firstName, String lastName, List<String> roleNames);
+
+    Optional<UserDTO> createInitUser(
             String email, String firstName, String lastName, String userName, String password, List<String> roleNames);
 
     Optional<UserDTO> updateUser(Long id, UserDTO userDTO);

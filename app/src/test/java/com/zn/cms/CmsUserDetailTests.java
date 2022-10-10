@@ -50,12 +50,12 @@ public class CmsUserDetailTests {
         permissionService.appendDependPermissions("DELETE_TESTING", Arrays.asList("WRITE_TESTING2"));
         permissionService.appendDependPermissions("UPDATE_TESTING", Arrays.asList("DELETE_TESTING"));
         permissionService.appendDependPermissions("WRITE_TESTING1", Arrays.asList("UPDATE_TESTING"));
-        permissionService.appendDependPermissions("WRITE_TESTING2", Arrays.asList( "READ_TESTING"));
+        permissionService.appendDependPermissions("WRITE_TESTING2", Arrays.asList("READ_TESTING"));
 //          Create role
         roleService.createRoleIfNotFound("myRole",
                 Arrays.asList("READ_TESTING", "WRITE_TESTING1", "UPDATE_TESTING", "DELETE_TESTING", "WRITE_TESTING2"));
 //          Create user
-        userService.createUserIfNotFound("permissionTesting@yahoo.com", "test", "permission",
+        userService.createInitUser("permissionTesting@yahoo.com", "test", "permission",
                 "myUsername", "myPassword", Collections.singletonList("myRole"));
         UserDetails userDetails = impl.loadUserByUsername("myUsername");
         List<? extends GrantedAuthority> grAuthList = userDetails.getAuthorities().stream().collect(Collectors.toList());

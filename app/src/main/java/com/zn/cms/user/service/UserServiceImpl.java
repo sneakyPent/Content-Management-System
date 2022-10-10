@@ -18,12 +18,14 @@ import org.springframework.stereotype.Service;
 import javax.transaction.Transactional;
 import java.util.List;
 import java.util.Optional;
+import java.util.Random;
 import java.util.stream.Collectors;
 
 @Service
 @Transactional
 @RequiredArgsConstructor
 public class UserServiceImpl implements UserService {
+    private final ApplicationSecurity applicationSecurity;
     private final UserRepository userRepository;
     private final RoleRepository roleRepository;
     private final UserMapper userMapper;
@@ -50,10 +52,33 @@ public class UserServiceImpl implements UserService {
 
     }
 
-    public Optional<UserDTO> createUserIfNotFound(
+    public Optional<UserDTO> createInitUser(
             String email, String firstName, String lastName, String userName, String password, List<String> roleNames) {
         Optional<User> userOpt = userRepository.findByUsername(userName);
         List<Role> roles = roleRepository.findAllByNameIn(roleNames);
+        String usernameTest = generateRandomUniqueUsername();
+        String passwordTest = applicationSecurity.generatePassword();
+        if (!userOpt.isPresent()) {
+            return Optional.of(userRepository.save(
+                    User.builder()
+                            .email(email)
+                            .firstName(firstName)
+                            .lastName(lastName)
+                            .username(userName)
+                            .password(passwordEncoder.encode(password))
+                            .enabled(true)
+                            .roles(roles)
+                            .build())).map(userMapper::userToUserDTO);
+        }
+        return userOpt.map(userMapper::userToUserDTO);
+    }
+
+    public Optional<UserDTO> createUserIfNotFound(
+            String email, String firstName, String lastName, List<String> roleNames) {
+        List<Role> roles = roleRepository.findAllByNameIn(roleNames);
+        String userName = generateRandomUniqueUsername();
+        String password = applicationSecurity.generatePassword();
+        Optional<User> userOpt = userRepository.findByUsername(userName);
         if (!userOpt.isPresent()) {
             return Optional.of(userRepository.save(
                     User.builder()
@@ -83,7 +108,7 @@ public class UserServiceImpl implements UserService {
         Optional<User> oldUserOptional = userRepository.findById(id);
         if (oldUserOptional.isPresent()) {
             User oldUser = oldUserOptional.get();
-            oldUser.setUsername(userDTO.getUsername());
+//            oldUser.setUsername(userDTO.getUsername());
             oldUser.setFirstName(userDTO.getFirstName());
             oldUser.setLastName(userDTO.getLastName());
             oldUser.setEmail(userDTO.getEmail());

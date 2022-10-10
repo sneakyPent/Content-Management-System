@@ -46,11 +46,11 @@ public class ApplicationInitializer implements CommandLineRunner {
         roleService.createRoleIfNotFound("ROLE_CONTRIBUTOR", Arrays.asList("UPDATE_ROLE","UPDATE_USER"));
         roleService.createRoleIfNotFound("ROLE_DESIGN", Collections.singletonList("READ_USER"));
 
-        userService.createUserIfNotFound("zaharioudakis@yahoo.com", "Nikolas", "Zacharioudakis",
+        userService.createInitUser("zaharioudakis@yahoo.com", "Nikolas", "Zacharioudakis",
                 adminUser, password, Collections.singletonList("ROLE_ADMIN"));
-        userService.createUserIfNotFound("contributor@yahoo.com", "Vasilis", "Zacharioudakis",
+        userService.createInitUser("contributor@yahoo.com", "Vasilis", "Zacharioudakis",
                 contributorUser, password, Collections.singletonList("ROLE_CONTRIBUTOR"));
-        userService.createUserIfNotFound("designer@yahoo.com", "Antonis", "Zacharioudakis",
+        userService.createInitUser("designer@yahoo.com", "Antonis", "Zacharioudakis",
                 designerUser, password, Collections.singletonList("ROLE_DESIGN"));
 
     }
