@@ -32,6 +32,24 @@ public class UserServiceImpl implements UserService {
 
     private final PasswordEncoder passwordEncoder;
 
+    private String generateRandomUniqueUsername() {
+        List<String> unavailableUsernames = userRepository.findAll().stream().map(User::getUsername).collect(Collectors.toList());
+        int n = 5;
+        Random randGen = new Random();
+        int startNum = (int) Math.pow(10, n - 1);
+        int range = (int) (Math.pow(10, n) - startNum + 1);
+
+        int randomNum;
+        String newUserName;
+        do {
+
+            randomNum = randGen.nextInt(range) + startNum;
+            newUserName = "user" + randomNum;
+        } while (unavailableUsernames.contains(newUserName));
+        return newUserName;
+
+    }
+
     public Optional<UserDTO> createUserIfNotFound(
             String email, String firstName, String lastName, String userName, String password, List<String> roleNames) {
         Optional<User> userOpt = userRepository.findByUsername(userName);
