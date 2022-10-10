@@ -57,8 +57,6 @@ public class UserServiceImpl implements UserService {
             String email, String firstName, String lastName, String userName, String password, List<String> roleNames) {
         Optional<User> userOpt = userRepository.findByUsername(userName);
         List<Role> roles = roleRepository.findAllByNameIn(roleNames);
-        String usernameTest = generateRandomUniqueUsername();
-        String passwordTest = applicationSecurity.generatePassword();
         if (!userOpt.isPresent()) {
             return Optional.of(userRepository.save(
                     User.builder()
