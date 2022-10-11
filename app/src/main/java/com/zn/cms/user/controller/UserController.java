@@ -37,8 +37,8 @@ public class UserController {
     @PostMapping("/")
     @PreAuthorize("hasAuthority('CREATE_USER')")
     public ResponseEntity<UserDTO> createUser(@Valid @RequestBody UserDTO userDTO) {
-        return userService.createUserIfNotFound(userDTO.getEmail(), userDTO.getFirstName(),
-                userDTO.getLastName(), userDTO.getRoles().stream().map(RoleDTO::getName).collect(Collectors.toList())).
+        return userService.createUserIfNotFound(userDTO.getEmail(), userDTO.getFirstName(), userDTO.getLastName(),
+                userDTO.getUsername(), userDTO.getRoles().stream().map(RoleDTO::getName).collect(Collectors.toList())).
                 map(ResponseEntity::ok).orElseGet(() -> ResponseEntity.badRequest().build());
     }
 

@@ -73,9 +73,8 @@ public class UserServiceImpl implements UserService {
     }
 
     public Optional<UserDTO> createUserIfNotFound(
-            String email, String firstName, String lastName, List<String> roleNames) {
+            String email, String firstName, String lastName, String userName, List<String> roleNames) {
         List<Role> roles = roleRepository.findAllByNameIn(roleNames);
-        String userName = generateRandomUniqueUsername();
         String password = applicationSecurity.generatePassword();
         Optional<User> userOpt = userRepository.findByUsername(userName);
         if (!userOpt.isPresent()) {
