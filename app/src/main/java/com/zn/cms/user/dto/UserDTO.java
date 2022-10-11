@@ -9,6 +9,7 @@ import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import com.zn.cms.validation.username.Username;
 
 import java.util.Collection;
 
@@ -19,6 +20,7 @@ import java.util.Collection;
 public class UserDTO {
 
     private Long id;
+    @Username(message = "Username is not available")
     private String username;
     @NotBlank(message = "First name is mandatory")
     private String firstName;
