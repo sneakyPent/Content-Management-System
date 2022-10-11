@@ -1,0 +1,27 @@
+[
+  {
+    "name": "ROLE_ADMIN",
+    "permissionList": [
+      "READ_PERMISSION",
+      "CREATE_ROLE",
+      "DELETE_ROLE",
+      "UPDATE_ROLE",
+      "CREATE_USER",
+      "UPDATE_USER",
+      "DELETE_USER"
+    ]
+  },
+  {
+    "name": "ROLE_CONTRIBUTOR",
+    "permissionList": [
+      "UPDATE_ROLE",
+      "UPDATE_USER"
+    ]
+  },
+  {
+    "name": "ROLE_DESIGN",
+    "permissionList": [
+      "READ_USER"
+    ]
+  }
+]

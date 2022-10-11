@@ -1,0 +1,26 @@
+[
+  {
+    "email":"zaharioudakis@yahoo.com" ,
+    "firstName": "Nikolas",
+    "lastName": "Zacharioudakis",
+    "username": "admin",
+    "password": "password",
+    "rolesList": ["ROLE_ADMIN"]
+  },
+  {
+    "email":"contributor@yahoo.com" ,
+    "firstName": "Vasilis",
+    "lastName": "Zacharioudakis",
+    "username": "contributor",
+    "password": "password",
+    "rolesList": ["ROLE_CONTRIBUTOR"]
+  },
+  {
+    "email":"designer@yahoo.com" ,
+    "firstName": "Antonis",
+    "lastName": "Zacharioudakis",
+    "username": "design",
+    "password": "password",
+    "rolesList": ["ROLE_DESIGN"]
+  }
+]

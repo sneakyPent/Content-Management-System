@@ -1,0 +1,50 @@
+[
+  {
+    "name": "READ_PERMISSION",
+    "deps": []
+  },
+  {
+    "name": "READ_ROLE",
+    "deps": []
+  },
+  {
+    "name": "CREATE_ROLE",
+    "deps": [
+      "READ_ROLE"
+    ]
+  },
+  {
+    "name": "DELETE_ROLE",
+    "deps": [
+      "READ_ROLE"
+    ]
+  },
+  {
+    "name": "UPDATE_ROLE",
+    "deps": [
+      "READ_ROLE"
+    ]
+  },
+  {
+    "name": "READ_USER",
+    "deps": []
+  },
+  {
+    "name": "CREATE_USER",
+    "deps": [
+      "READ_USER"
+    ]
+  },
+  {
+    "name": "UPDATE_USER",
+    "deps": [
+      "READ_USER"
+    ]
+  },
+  {
+    "name": "DELETE_USER",
+    "deps": [
+      "READ_USER"
+    ]
+  }
+]
