@@ -47,6 +47,7 @@ dependencies {
     testImplementation 'org.springframework.boot:spring-boot-starter-test'
     testImplementation 'org.springframework.security:spring-security-test'
     annotationProcessor 'org.mapstruct:mapstruct-processor:1.5.2.Final'
+    implementation 'com.googlecode.json-simple:json-simple:1.1.1'
 
 }
 
