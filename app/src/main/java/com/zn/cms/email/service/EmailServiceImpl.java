@@ -1,16 +1,40 @@
 package com.zn.cms.email.service;
 
-import com.sun.xml.internal.messaging.saaj.packaging.mime.MessagingException;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.mail.SimpleMailMessage;
-import org.springframework.mail.javamail.JavaMailSender;
-import org.springframework.stereotype.Component;
 
-@Component
+import lombok.RequiredArgsConstructor;
+import org.springframework.core.io.FileSystemResource;
+import org.springframework.mail.SimpleMailMessage;
+import org.springframework.mail.javamail.JavaMailSenderImpl;
+import org.springframework.mail.javamail.MimeMessageHelper;
+import org.springframework.stereotype.Service;
+
+import javax.annotation.PostConstruct;
+import javax.mail.MessagingException;
+import javax.mail.internet.MimeMessage;
+import java.io.File;
+import java.util.Properties;
+
+@Service
+@RequiredArgsConstructor
 public class EmailServiceImpl implements EmailService {
 
-    @Autowired
-    private JavaMailSender emailSender;
+    public JavaMailSenderImpl emailSender;
+
+    @PostConstruct
+    public void init() {
+        emailSender = new JavaMailSenderImpl();
+        emailSender.setHost("smtp.gmail.com");
+        emailSender.setPort(587);
+        emailSender.setUsername("zacharin4@gmail.com");
+        emailSender.setPassword("webrbqmkeijmqqlb");
+
+        Properties props = emailSender.getJavaMailProperties();
+        props.put("mail.transport.protocol", "smtp");
+        props.put("mail.smtp.auth", "true");
+        props.put("mail.smtp.starttls.enable", "true");
+        props.put("mail.debug", "true");
+
+    }
 
     public void sendSimpleMessage(String to, String subject, String text) {
         SimpleMailMessage message = new SimpleMailMessage();
