@@ -132,5 +132,29 @@ public class UserServiceImpl implements UserService {
         }
     }
 
+    public boolean updateResetPasswordToken(String token, String email) {
+        Optional<User> userOpt = userRepository.findByEmail(email);
+        if (userOpt.isPresent()) {
+            User user = userOpt.get();
+            user.setResetPasswordToken(token);
+            userRepository.save(user);
+            return true;
+        }
+        else
+            return false;
+    }
+
+    public boolean updatePassword(String token, String newPassword) {
+        Optional<User> userOpt = userRepository.findByResetPasswordToken(token);
+        if (userOpt.isPresent()) {
+            User user = userOpt.get();
+            String encodedPassword = passwordEncoder.encode(newPassword);
+            user.setPassword(encodedPassword);
+            user.setResetPasswordToken(null);
+            userRepository.save(user);
+            return true;
+        }
+        return false;
+    }
 
 }
