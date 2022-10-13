@@ -37,6 +37,8 @@ public class User {
 
     private boolean tokenExpired;
 
+    private String resetPasswordToken;
+
     @ManyToMany(fetch = FetchType.EAGER)
     @JoinTable(
             name = "users_roles",
