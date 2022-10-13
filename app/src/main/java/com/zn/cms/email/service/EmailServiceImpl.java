@@ -61,9 +61,7 @@ public class EmailServiceImpl implements EmailService {
         FileSystemResource file
                 = new FileSystemResource(new File(pathToAttachment));
         helper.addAttachment("Invoice.txt", file);
-
         emailSender.send(message);
-        // ...
     }
 
     @Override
