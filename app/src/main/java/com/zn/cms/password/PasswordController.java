@@ -17,9 +17,13 @@ public class PasswordController {
     private final PasswordServiceImpl passwordService;
 
     @PostMapping("/reset")
-    public ResponseEntity<?> resetPassword(@RequestParam(value = "token") String token, @RequestParam(value = "password") String password) {
-        passwordService.resetPassword(token, password);
-        return ResponseEntity.ok().build();
+    public ResponseEntity<?> resetPassword(@RequestParam(value = "uuid") String uuid, @RequestParam(value = "password") String password) {
+        try {
+            passwordService.resetPassword(uuid, password);
+            return ResponseEntity.ok().build();
+        }catch (ExpiredUUID ex){
+            return ResponseEntity.ok().build();
+        }
     }
 
     @PostMapping("/forgot")
