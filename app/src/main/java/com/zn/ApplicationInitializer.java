@@ -27,7 +27,8 @@ public class ApplicationInitializer implements CommandLineRunner {
     private final PermissionService permissionService;
     private final RoleService roleService;
     private final UserService userService;
-    private final String initDataPath = System.getProperty("user.dir") + "/initData/";
+    private final String initDataPath = System.getProperty("user.dir") + "/" +
+            "app/initData/";
 
     @Value("${application.security.user.admin}")
     private String adminUser;
