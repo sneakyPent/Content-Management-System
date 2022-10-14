@@ -21,8 +21,4 @@ public interface UserService {
     Optional<UserDTO> updateUser(Long id, UserDTO userDTO);
 
     boolean deleteUser(Long id);
-
-    boolean updateResetPasswordToken(String token, String email);
-
-    boolean updatePassword(String token, String newPassword);
 }

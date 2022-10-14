@@ -33,8 +33,6 @@ public class UserDTO {
     @UniqueEmail(message = "Email is not available")
     private String email;
 
-    private String resetPasswordToken;
-
     private Collection<RoleDTO> roles;
 
 }
