@@ -1,5 +1,6 @@
 version: "3.9"
 services:
+
   postgres-db:
     container_name: appDatabase
     image: postgres:14.5
@@ -10,10 +11,13 @@ services:
       - POSTGRES_DB=${POSTGRES_DB_NAME}
       - POSTGRES_USER=${POSTGRES_DB_USERNAME}
       - POSTGRES_PASSWORD=${POSTGRES_DB_PASSWORD}
+
   app:
     container_name: application
     image: app
     restart: unless-stopped
+    volumes:
+      - ../../app/initData:/app/initData
     depends_on:
       - postgres-db
     environment:
@@ -25,12 +29,16 @@ services:
       - DB_PASSWORD=${POSTGRES_DB_PASSWORD}
 
   nginx:
-    image: nginx:1.23.1
+    container_name: nginx_prod
     restart: unless-stopped
+    build:
+      context: ../../
+      dockerfile: docker/prod/nginx/Dockerfile
     depends_on:
       - app
     volumes:
       - ./nginx/nginx.conf:/etc/nginx/nginx.conf
       - ./nginx/data/www:/data/www
     ports:
-      - 80:80
+      - "80:80"
+
