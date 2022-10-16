@@ -66,8 +66,10 @@ public class ApplicationSecurity {
 
         http.authenticationProvider(authenticationProvider())
                 .authorizeRequests()
-                .anyRequest().authenticated()
-//                .antMatchers("/login").permitAll()
+                .antMatchers("/password*")
+                .permitAll()
+                .anyRequest()
+                .authenticated()
 //                .antMatchers("/users/**", "/settings/**").hasAuthority("Admin")
                 .and().httpBasic();
 //                .loginPage("/login")
