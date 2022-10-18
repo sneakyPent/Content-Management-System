@@ -27,6 +27,8 @@ public class ApplicationInitializer implements CommandLineRunner {
     private final PermissionService permissionService;
     private final RoleService roleService;
     private final UserService userService;
+    private final String initDataPath = System.getProperty("user.dir") + "/" +
+            "app/initData/";
 
     @Value("${application.security.user.admin}")
     private String adminUser;
@@ -50,7 +52,7 @@ public class ApplicationInitializer implements CommandLineRunner {
     private void initPermissions() {
         JSONParser jsonParser = new JSONParser();
 
-        try (FileReader reader = new FileReader("app/initData/initPermission.json")) {
+        try (FileReader reader = new FileReader(initDataPath + "initPermission.json")) {
             //Read JSON file
             Object obj = jsonParser.parse(reader);
 
@@ -78,7 +80,7 @@ public class ApplicationInitializer implements CommandLineRunner {
     void initRoles() {
         JSONParser jsonParser = new JSONParser();
 
-        try (FileReader reader = new FileReader("app/initData/initRoles.json")) {
+        try (FileReader reader = new FileReader(initDataPath + "initRoles.json")) {
             //Read JSON file
             Object obj = jsonParser.parse(reader);
             JSONArray permissionList = (JSONArray) obj;
@@ -104,7 +106,7 @@ public class ApplicationInitializer implements CommandLineRunner {
     void initUsers() {
         JSONParser jsonParser = new JSONParser();
 
-        try (FileReader reader = new FileReader("app/initData/initUsers.json")) {
+        try (FileReader reader = new FileReader(initDataPath + "initUsers.json")) {
             //Read JSON file
             Object obj = jsonParser.parse(reader);
             JSONArray permissionList = (JSONArray) obj;

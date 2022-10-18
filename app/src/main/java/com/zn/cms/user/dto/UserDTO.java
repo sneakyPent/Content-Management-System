@@ -32,6 +32,7 @@ public class UserDTO {
     @NotBlank(message = "Email is mandatory")
     @UniqueEmail(message = "Email is not available")
     private String email;
+
     private Collection<RoleDTO> roles;
 
 }

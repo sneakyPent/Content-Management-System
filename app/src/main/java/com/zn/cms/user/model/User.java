@@ -17,7 +17,7 @@ public class User {
 
     @Id
     @Column(unique = true, nullable = false)
-    @GeneratedValue(strategy = GenerationType.TABLE)
+    @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
 
     @Column(unique = true, nullable = false)
@@ -36,6 +36,7 @@ public class User {
     private String password;
 
     private boolean tokenExpired;
+
 
     @ManyToMany(fetch = FetchType.EAGER)
     @JoinTable(

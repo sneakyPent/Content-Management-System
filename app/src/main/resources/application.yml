@@ -31,6 +31,8 @@ management:
         include: '*'
 
 application:
+  domain:
+    Name: ${DOMAIN_NAME:localhost}
   security:
     user:
       admin: ${SPRING_SECURITY_USER_NAME:admin}
