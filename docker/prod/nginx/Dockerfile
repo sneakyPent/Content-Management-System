@@ -7,17 +7,16 @@ ENV PATH /app/node_modules/.bin:$PATH
 # install app dependencies
 COPY /ui/package.json ./
 COPY /ui/package-lock.json ./
-COPY /ui/public ./public
 RUN npm install --silent
-RUN npm install react-scripts@3.4.1 -g --silent
+RUN npm install react-scripts@5.0.1 -g --silent
 # add app
-COPY /ui ./
+COPY /ui /app
 # start app
 RUN npm run build
 
 # production stage
-FROM nginx:1.13.12-alpine as production-stage
+FROM nginx:1.23.1-alpine as production-stage
 COPY /docker/prod/nginx/nginx.conf /etc/nginx/nginx.conf
-COPY --from=build-stage /app/build /dist/
+COPY --from=build-stage /app/build /usr/share/nginx/html
 EXPOSE 80
 CMD ["nginx", "-g", "daemon off;"]
