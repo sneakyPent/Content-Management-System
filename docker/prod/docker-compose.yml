@@ -1,19 +1,32 @@
 version: "3.9"
 services:
+
   postgres-db:
     container_name: appDatabase
     image: postgres:14.5
     restart: unless-stopped
+    ports:
+    - 5432:5432
     volumes:
       - ./appdata/postgresql/data:/var/lib/postgresql/data
     environment:
       - POSTGRES_DB=${POSTGRES_DB_NAME}
       - POSTGRES_USER=${POSTGRES_DB_USERNAME}
       - POSTGRES_PASSWORD=${POSTGRES_DB_PASSWORD}
+
+  webui:
+    container_name: webui
+    image: ui
+    restart: unless-stopped
+    depends_on:
+      - app
+
   app:
     container_name: application
     image: app
     restart: unless-stopped
+    volumes:
+      - ../../app/initData:/app/initData
     depends_on:
       - postgres-db
     environment:
@@ -25,12 +38,12 @@ services:
       - DB_PASSWORD=${POSTGRES_DB_PASSWORD}
 
   nginx:
-    image: nginx:1.23.1
+    container_name: nginx
+    image: nginx:1.23.1-alpine
     restart: unless-stopped
-    depends_on:
-      - app
     volumes:
       - ./nginx/nginx.conf:/etc/nginx/nginx.conf
       - ./nginx/data/www:/data/www
     ports:
       - 80:80
+

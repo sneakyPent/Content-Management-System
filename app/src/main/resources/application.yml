@@ -22,7 +22,7 @@ spring:
 server:
   port: ${SERVER_PORT:8080}
   servlet:
-    context-path: /appservice
+    context-path: /app
 
 management:
   endpoints:
