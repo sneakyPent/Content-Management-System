@@ -36,7 +36,7 @@ services:
       - DB_USERNAME=${POSTGRES_DB_USERNAME}
       - DB_PASSWORD=${POSTGRES_DB_PASSWORD}
     ports:
-      - 8080:8080
+      - "8080:8080"
 
   pgadmin:
     container_name: pgadmin
@@ -54,6 +54,7 @@ services:
     container_name: react-ui
     build:
       context: ../../ui
+      dockerfile: dev.Dockerfile
     restart: unless-stopped
     volumes:
       - ../../ui:/app/
@@ -66,10 +67,9 @@ services:
       - FAST_REFRESH=true
 
   nginx:
-    container_name: nginx_dev
+    container_name: nginx
+    image: nginx:1.23.1-alpine
     restart: unless-stopped
-    build:
-      context: ./nginx
     depends_on:
       - react-ui
     volumes:
