@@ -18,6 +18,8 @@ services:
     container_name: webui
     image: ui
     restart: unless-stopped
+    depends_on:
+      - app
 
   app:
     container_name: application
