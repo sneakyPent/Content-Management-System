@@ -1,5 +1,7 @@
 package com.zn.cms.configuration;
 
+import com.zn.cms.jwt.config.JwtAuthenticationEntryPoint;
+import com.zn.cms.jwt.config.JwtRequestFilter;
 import com.zn.cms.user.service.CmsUserDetailServiceImpl;
 import org.passay.CharacterData;
 import org.passay.CharacterRule;
@@ -16,8 +18,10 @@ import org.springframework.security.config.annotation.authentication.configurati
 import org.springframework.security.config.annotation.method.configuration.EnableGlobalMethodSecurity;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
+import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
+import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 
 import static org.springframework.beans.TypeMismatchException.ERROR_CODE;
 
@@ -27,6 +31,20 @@ import static org.springframework.beans.TypeMismatchException.ERROR_CODE;
 public class ApplicationSecurity {
 
     private CmsUserDetailServiceImpl cmsUserDetailService;
+
+    private JwtAuthenticationEntryPoint jwtAuthenticationEntryPoint;
+
+    public JwtRequestFilter getJwtRequestFilter() {
+        return jwtRequestFilter;
+    }
+
+    @Autowired
+    @Lazy
+    public void setJwtRequestFilter(JwtRequestFilter jwtRequestFilter) {
+        this.jwtRequestFilter = jwtRequestFilter;
+    }
+
+    private JwtRequestFilter jwtRequestFilter;
 
     @Bean
     public BCryptPasswordEncoder passwordEncoder() {
@@ -39,7 +57,6 @@ public class ApplicationSecurity {
         return authConfig.getAuthenticationManager();
     }
 
-
     @Bean
     public AuthenticationProvider authenticationProvider() {
         DaoAuthenticationProvider authProvider = new DaoAuthenticationProvider();
@@ -49,7 +66,6 @@ public class ApplicationSecurity {
 
         return authProvider;
     }
-
 
     public CmsUserDetailServiceImpl getCmsUserDetailService() {
         return cmsUserDetailService;
@@ -66,17 +82,17 @@ public class ApplicationSecurity {
 
         http.authenticationProvider(authenticationProvider())
                 .authorizeRequests()
-                .antMatchers("/password*")
-                .permitAll()
-                .anyRequest()
-                .authenticated()
+                .antMatchers("/password*", "/authenticate").permitAll()
+                .anyRequest().authenticated().and()
+                .exceptionHandling().authenticationEntryPoint(jwtAuthenticationEntryPoint).and()
+                .sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS);
 //                .antMatchers("/users/**", "/settings/**").hasAuthority("Admin")
-                .and().httpBasic();
+//                .and().httpBasic();
 //                .loginPage("/login")
 //                .usernameParameter("email")
 
 //                .logout().permitAll();
-
+        http.addFilterBefore(getJwtRequestFilter(), UsernamePasswordAuthenticationFilter.class);
         http.headers().frameOptions().sameOrigin();
         http.csrf().disable();
 
@@ -112,7 +128,6 @@ public class ApplicationSecurity {
         return gen.generatePassword(10, splCharRule, lowerCaseRule,
                 upperCaseRule, digitRule);
     }
-
 
 
 }

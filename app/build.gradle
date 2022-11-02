@@ -49,6 +49,7 @@ dependencies {
     testImplementation 'org.springframework.security:spring-security-test'
     annotationProcessor 'org.mapstruct:mapstruct-processor:1.5.2.Final'
     implementation 'com.googlecode.json-simple:json-simple:1.1.1'
+    implementation 'io.jsonwebtoken:jjwt:0.9.1'
 
 }
 

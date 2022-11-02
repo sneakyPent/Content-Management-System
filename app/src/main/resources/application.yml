@@ -34,6 +34,8 @@ application:
   domain:
     Name: ${DOMAIN_NAME:localhost}
   security:
+    jwt:
+      secret: mySecretKey
     user:
       admin: ${SPRING_SECURITY_USER_NAME:admin}
       password: ${SPRING_SECURITY_USER_PASSWORD:password}
