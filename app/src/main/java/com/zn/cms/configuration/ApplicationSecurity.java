@@ -80,24 +80,36 @@ public class ApplicationSecurity {
     @Bean
     public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
 
-        http.authenticationProvider(authenticationProvider())
-                .authorizeRequests()
-                .antMatchers("/password*", "/authenticate").permitAll()
-                .anyRequest().authenticated().and()
-                .exceptionHandling().authenticationEntryPoint(jwtAuthenticationEntryPoint).and()
-                .sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS);
-//                .antMatchers("/users/**", "/settings/**").hasAuthority("Admin")
-//                .and().httpBasic();
-//                .loginPage("/login")
-//                .usernameParameter("email")
+//      Disable CSRF
+        http = http.csrf().disable();
+//      Set authenticate provider
+        http.authenticationProvider(authenticationProvider());
+//       Set session management to stateless
+//       Set unauthorized requests exception handler
+        http = http.sessionManagement()
+                .sessionCreationPolicy(SessionCreationPolicy.STATELESS)
+                .and()
+                .exceptionHandling()
+                .authenticationEntryPoint(jwtAuthenticationEntryPoint)
+                .and();
 
-//                .logout().permitAll();
-        http.addFilterBefore(getJwtRequestFilter(), UsernamePasswordAuthenticationFilter.class);
+
+//      Set permissions on endpoints
+        http = http.authorizeRequests()
+                .antMatchers(
+                        "/password/**",
+                        "/authenticate"
+                ).permitAll()
+                .anyRequest().authenticated().and();
+
+//      Add JWT token filter
+        http = http.addFilterBefore(getJwtRequestFilter(), UsernamePasswordAuthenticationFilter.class);
+
         http.headers().frameOptions().sameOrigin();
-        http.csrf().disable();
 
         return http.build();
     }
+
     @Bean
     public String generatePassword() {
         PasswordGenerator gen = new PasswordGenerator();
