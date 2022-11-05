@@ -34,6 +34,20 @@ public class ApplicationSecurity {
 
     private JwtAuthenticationEntryPoint jwtAuthenticationEntryPoint;
 
+    private JwtRequestFilter jwtRequestFilter;
+
+
+//    -------------------   SETTERS AND GETTERS --------------------
+    public JwtAuthenticationEntryPoint getJwtAuthenticationEntryPoint() {
+        return jwtAuthenticationEntryPoint;
+    }
+
+    @Autowired
+    @Lazy
+    public void setJwtAuthenticationEntryPoint(JwtAuthenticationEntryPoint jwtAuthenticationEntryPoint) {
+        this.jwtAuthenticationEntryPoint = jwtAuthenticationEntryPoint;
+    }
+
     public JwtRequestFilter getJwtRequestFilter() {
         return jwtRequestFilter;
     }
@@ -44,7 +58,16 @@ public class ApplicationSecurity {
         this.jwtRequestFilter = jwtRequestFilter;
     }
 
-    private JwtRequestFilter jwtRequestFilter;
+    public CmsUserDetailServiceImpl getCmsUserDetailService() {
+        return cmsUserDetailService;
+    }
+
+    @Autowired
+    @Lazy
+    public void setCmsUserDetailService(CmsUserDetailServiceImpl cmsUserDetailService) {
+        this.cmsUserDetailService = cmsUserDetailService;
+    }
+
 
     @Bean
     public BCryptPasswordEncoder passwordEncoder() {
@@ -67,16 +90,6 @@ public class ApplicationSecurity {
         return authProvider;
     }
 
-    public CmsUserDetailServiceImpl getCmsUserDetailService() {
-        return cmsUserDetailService;
-    }
-
-    @Autowired
-    @Lazy
-    public void setCmsUserDetailService(CmsUserDetailServiceImpl cmsUserDetailService) {
-        this.cmsUserDetailService = cmsUserDetailService;
-    }
-
     @Bean
     public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
 
@@ -90,7 +103,7 @@ public class ApplicationSecurity {
                 .sessionCreationPolicy(SessionCreationPolicy.STATELESS)
                 .and()
                 .exceptionHandling()
-                .authenticationEntryPoint(jwtAuthenticationEntryPoint)
+                .authenticationEntryPoint(getJwtAuthenticationEntryPoint())
                 .and();
 
 
