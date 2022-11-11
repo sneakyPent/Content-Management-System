@@ -52,7 +52,6 @@ public class JwtRequestFilter extends OncePerRequestFilter {
                 username = jwtTokenUtil.getUsernameFromToken(jwtToken);
             } catch (ExpiredJwtException | BadCredentialsException ex) {
                 request.setAttribute("exception", ex);
-                throw ex;
             }
         } else {
             logger.warn("JWT Token does not begin with Bearer String");
