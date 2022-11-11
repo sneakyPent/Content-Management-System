@@ -37,7 +37,7 @@ application:
     jwt:
       secret: mySecretKey
 #     1000*SECONDS*MINUTES*HOURS
-      expirationDateInMs: 3600000   # 1 hour
+      expirationDateInMs: 3600000   # 1 hour=3600000
       refreshExpirationDateInMs: 18000000   # 5 hours
     user:
       admin: ${SPRING_SECURITY_USER_NAME:admin}
