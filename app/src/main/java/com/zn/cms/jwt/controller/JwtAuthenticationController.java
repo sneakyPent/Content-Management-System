@@ -29,7 +29,7 @@ public class JwtAuthenticationController {
 	private final JwtTokenUtil jwtTokenUtil;
 
 
-	@PostMapping()
+	@PostMapping("/signin")
 	public ResponseEntity<?> createAuthenticationToken(@RequestBody JwtRequest authenticationRequest) throws Exception {
 
 		authenticate(authenticationRequest.getUsername(), authenticationRequest.getPassword());

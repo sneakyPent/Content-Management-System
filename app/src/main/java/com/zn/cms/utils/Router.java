@@ -5,6 +5,6 @@ public interface Router {
     String ROLE = "role";
     String USER = "user";
     String PASSWORD = "password";
-    String AUTHENTICATE = "authenticate";
+    String AUTHENTICATE = "auth";
 
 }

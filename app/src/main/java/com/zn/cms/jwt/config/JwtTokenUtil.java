@@ -1,8 +1,6 @@
 package com.zn.cms.jwt.config;
 
-import io.jsonwebtoken.Claims;
-import io.jsonwebtoken.Jwts;
-import io.jsonwebtoken.SignatureAlgorithm;
+import io.jsonwebtoken.*;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -23,12 +21,15 @@ public class JwtTokenUtil implements Serializable {
     @Value("${application.security.jwt.expirationDateInMs}")
 	public long JWT_TOKEN_EXPIRATION_DATE_IN_MS;
 
+	@Value("${application.security.jwt.refreshExpirationDateInMs}")
+	public long JWT_REFRESH_TOKEN_EXPIRATION_DATE_IN_MS;
+
 	@Value("${application.security.jwt.secret}")
 	private String JWT_SECRET;
 
 	//retrieve username from jwt token
 	public String getUsernameFromToken(String token) {
-		return getClaimFromToken(token, Claims::getSubject);
+		return Jwts.parser().setSigningKey(JWT_SECRET).parseClaimsJws(token).getBody().getSubject();
 	}
 
 	//retrieve expiration date from jwt token
@@ -65,14 +66,32 @@ public class JwtTokenUtil implements Serializable {
 	//3. According to JWS Compact Serialization(https://tools.ietf.org/html/draft-ietf-jose-json-web-signature-41#section-3.1)
 	//   compaction of the JWT to a URL-safe string 
 	private String doGenerateToken(Map<String, Object> claims, String subject) {
-		return Jwts.builder().setClaims(claims).setSubject(subject).setIssuedAt(new Date(System.currentTimeMillis()))
+		return Jwts.builder()
+				.setClaims(claims)
+				.setSubject(subject)
+				.setIssuedAt(new Date(System.currentTimeMillis()))
 				.setExpiration(new Date(System.currentTimeMillis() + JWT_TOKEN_EXPIRATION_DATE_IN_MS))
-				.signWith(SignatureAlgorithm.HS512, JWT_SECRET).compact();
+				.signWith(SignatureAlgorithm.HS512, JWT_SECRET)
+				.compact();
 	}
 
 	//validate token
-	public Boolean validateToken(String token, UserDetails userDetails) {
-		final String username = getUsernameFromToken(token);
-		return (username.equals(userDetails.getUsername()) && !isTokenExpired(token));
+	public Boolean validateToken(String authToken, UserDetails userDetails) {
+		try {
+			Jwts.parser().setSigningKey(JWT_SECRET).parseClaimsJws(authToken);
+			final String username = getUsernameFromToken(authToken);
+			return (username.equals(userDetails.getUsername()) && !isTokenExpired(authToken));
+		} catch (SignatureException e) {
+			System.out.println("Invalid JWT signature: "+ e.getMessage());
+		} catch (MalformedJwtException e) {
+			System.out.println("Invalid JWT token: "+ e.getMessage());
+		} catch (ExpiredJwtException e) {
+			System.out.println("JWT token is expired: "+ e.getMessage());
+		} catch (UnsupportedJwtException e) {
+			System.out.println("JWT token is unsupported: "+ e.getMessage());
+		} catch (IllegalArgumentException e) {
+			System.out.println("JWT claims string is empty: "+ e.getMessage());
+		}
+		return false;
 	}
 }
