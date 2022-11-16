@@ -1,4 +1,4 @@
-package com.zn.cms.jwt.config;
+package com.zn.cms.security.jwt;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.springframework.http.MediaType;

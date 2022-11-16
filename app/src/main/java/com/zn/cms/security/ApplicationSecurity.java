@@ -1,7 +1,7 @@
-package com.zn.cms.configuration;
+package com.zn.cms.security;
 
-import com.zn.cms.jwt.config.JwtAuthenticationEntryPoint;
-import com.zn.cms.jwt.config.JwtRequestFilter;
+import com.zn.cms.security.jwt.JwtAuthenticationEntryPoint;
+import com.zn.cms.security.jwt.JwtRequestFilter;
 import com.zn.cms.user.service.CmsUserDetailServiceImpl;
 import org.passay.CharacterData;
 import org.passay.CharacterRule;
@@ -111,7 +111,7 @@ public class ApplicationSecurity {
         http = http.authorizeRequests()
                 .antMatchers(
                         "/password/**",
-                        "/authenticate"
+                        "/auth/**"
                 ).permitAll()
                 .anyRequest().authenticated().and();
 

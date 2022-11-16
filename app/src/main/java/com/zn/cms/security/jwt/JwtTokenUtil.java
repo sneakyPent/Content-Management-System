@@ -1,4 +1,4 @@
-package com.zn.cms.jwt.config;
+package com.zn.cms.security.jwt;
 
 import io.jsonwebtoken.*;
 import org.springframework.beans.factory.annotation.Value;

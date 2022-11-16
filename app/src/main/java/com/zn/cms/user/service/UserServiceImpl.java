@@ -1,6 +1,6 @@
 package com.zn.cms.user.service;
 
-import com.zn.cms.configuration.ApplicationSecurity;
+import com.zn.cms.security.ApplicationSecurity;
 import com.zn.cms.role.mapper.RoleMapper;
 import com.zn.cms.role.model.Role;
 import com.zn.cms.role.repository.RoleRepository;

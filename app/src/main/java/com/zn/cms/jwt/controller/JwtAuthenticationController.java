@@ -1,10 +1,9 @@
 package com.zn.cms.jwt.controller;
 
 
-import com.zn.cms.jwt.config.JwtTokenUtil;
+import com.zn.cms.security.jwt.JwtTokenUtil;
 import com.zn.cms.jwt.models.JwtRequest;
 import com.zn.cms.jwt.models.JwtResponse;
-import com.zn.cms.user.dto.UserDTO;
 import com.zn.cms.user.service.CmsUserDetailServiceImpl;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
@@ -39,7 +38,8 @@ public class JwtAuthenticationController {
 
 		final String token = jwtTokenUtil.generateToken(userDetails);
 
-		return ResponseEntity.ok(new JwtResponse(token));
+		return ResponseEntity.ok(new JwtResponse(token,
+				userDetails.getUsername()));
 	}
 
 	private void authenticate(String username, String password) throws Exception {

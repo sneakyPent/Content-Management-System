@@ -1,7 +1,8 @@
-package com.zn.cms.jwt.config;
+package com.zn.cms.security.jwt;
 
 
 import com.google.common.net.HttpHeaders;
+import com.zn.cms.security.jwt.JwtTokenUtil;
 import com.zn.cms.user.service.CmsUserDetailServiceImpl;
 import io.jsonwebtoken.ExpiredJwtException;
 import lombok.RequiredArgsConstructor;
