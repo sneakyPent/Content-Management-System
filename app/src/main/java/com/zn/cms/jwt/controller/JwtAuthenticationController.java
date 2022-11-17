@@ -31,6 +31,7 @@ public class JwtAuthenticationController {
 	@PostMapping("/signin")
 	public ResponseEntity<?> createAuthenticationToken(@RequestBody JwtRequest authenticationRequest) throws Exception {
 
+		String refreshToken = "refreshToken";
 		authenticate(authenticationRequest.getUsername(), authenticationRequest.getPassword());
 
 		final UserDetails userDetails = cmsUserDetailServiceImpl
@@ -38,7 +39,7 @@ public class JwtAuthenticationController {
 
 		final String token = jwtTokenUtil.generateToken(userDetails);
 
-		return ResponseEntity.ok(new JwtResponse(token,
+		return ResponseEntity.ok(new JwtResponse(token, refreshToken,
 				userDetails.getUsername()));
 	}
 
