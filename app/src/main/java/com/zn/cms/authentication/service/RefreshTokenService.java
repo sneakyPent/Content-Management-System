@@ -28,7 +28,7 @@ public class RefreshTokenService {
 
     private final UserRepository userRepository;
 
-    @Value("${application.security.jwt.refreshExpirationDateInMs}")
+    @Value("${application.security.jwt.refreshTokenExpirationDurationInMs}")
     public long refreshTokenDurationMs;
 
     public Optional<RefreshToken>  findByToken(String token){

@@ -18,10 +18,10 @@ public class JwtTokenUtil implements Serializable {
 
 	private static final long serialVersionUID = -2550185165626007488L;
 
-    @Value("${application.security.jwt.expirationDateInMs}")
+    @Value("${application.security.jwt.tokenExpirationDurationInMs}")
 	public long JWT_TOKEN_EXPIRATION_DATE_IN_MS;
 
-	@Value("${application.security.jwt.refreshExpirationDateInMs}")
+	@Value("${application.security.jwt.refreshTokenExpirationDurationInMs}")
 	public long JWT_REFRESH_TOKEN_EXPIRATION_DATE_IN_MS;
 
 	@Value("${application.security.jwt.secret}")
