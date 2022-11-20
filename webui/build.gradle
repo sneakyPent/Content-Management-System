@@ -1,0 +1,40 @@
+plugins {
+    id "com.github.node-gradle.node" version "3.5.0"
+    id 'com.palantir.docker' version '0.26.0'
+}
+
+repositories.whenObjectAdded {
+  if (it instanceof IvyArtifactRepository) {
+    metadataSources {
+      artifact()
+    }
+  }
+}
+
+node {
+  version = '18.12.1'
+  npmVersion = '9.1.2'
+  download = true
+}
+
+
+task build(type: NpmTask) {
+  args = ['run', 'build']
+}
+
+build.dependsOn(npmInstall)
+
+task clean {}
+task npmClean(type:Delete){
+  delete "node_modules"
+  delete "dist"
+}
+clean.dependsOn(npmClean)
+
+docker {
+  name "cms/cms-frontend"
+  dockerfile file('prod.Dockerfile')
+  files  projectDir.absolutePath
+}
+
+tasks.docker.dependsOn('build')

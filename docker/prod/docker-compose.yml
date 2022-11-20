@@ -14,7 +14,7 @@ services:
 
   webui:
     container_name: webui
-    image: ui
+    image: cms/cms-frontend
     restart: unless-stopped
     depends_on:
       - app
