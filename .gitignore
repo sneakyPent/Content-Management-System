@@ -26,3 +26,9 @@ hs_err_pid*
 .idea
 app/build
 appdata
+
+#angular dir ignore
+webui/.angular
+webui/.vscode
+webui/build
+webui/node_modules
