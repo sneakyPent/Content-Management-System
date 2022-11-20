@@ -1,10 +1,9 @@
-package com.zn.cms.jwt.models;
+package com.zn.cms.authentication.dto;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;
 
 import java.io.Serializable;
-
 
 @Data
 @AllArgsConstructor

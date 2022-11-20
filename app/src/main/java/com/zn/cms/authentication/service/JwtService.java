@@ -1,46 +1,46 @@
-package com.zn.cms.jwt.controller;
+package com.zn.cms.authentication.service;
 
 
+import com.zn.cms.authentication.dto.JwtResponse;
+import com.zn.cms.authentication.model.RefreshToken;
 import com.zn.cms.security.jwt.JwtTokenUtil;
-import com.zn.cms.jwt.models.JwtRequest;
-import com.zn.cms.jwt.models.JwtResponse;
 import com.zn.cms.user.service.CmsUserDetailServiceImpl;
 import lombok.RequiredArgsConstructor;
-import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.BadCredentialsException;
 import org.springframework.security.authentication.DisabledException;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.userdetails.UserDetails;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.stereotype.Service;
 
-import static com.zn.cms.utils.Router.AUTHENTICATE;
+import javax.transaction.Transactional;
+import java.util.Optional;
 
+@Service
+@Transactional
 @RequiredArgsConstructor
-@RestController
-@RequestMapping(AUTHENTICATE)
-public class JwtAuthenticationController {
+public class JwtService {
 
 	private final AuthenticationManager authenticationManager;
-
 	private final CmsUserDetailServiceImpl cmsUserDetailServiceImpl;
-
+	private final RefreshTokenService refreshTokenService;
 	private final JwtTokenUtil jwtTokenUtil;
 
 
-	@PostMapping("/signin")
-	public ResponseEntity<?> createAuthenticationToken(@RequestBody JwtRequest authenticationRequest) throws Exception {
+	public Optional<JwtResponse> createJwt(String username, String password) throws Exception {
+		authenticate(username, password);
 
-		String refreshToken = "refreshToken";
-		authenticate(authenticationRequest.getUsername(), authenticationRequest.getPassword());
+		UserDetails userDetails = cmsUserDetailServiceImpl
+				.loadUserByUsername(username);
 
-		final UserDetails userDetails = cmsUserDetailServiceImpl
-				.loadUserByUsername(authenticationRequest.getUsername());
+		String token = jwtTokenUtil.generateToken(userDetails);
 
-		final String token = jwtTokenUtil.generateToken(userDetails);
-
-		return ResponseEntity.ok(new JwtResponse(token, refreshToken,
-				userDetails.getUsername()));
+		Optional<RefreshToken> refreshTokenOptional = refreshTokenService.generateRefreshTokenFromUsername(username);
+		if(refreshTokenOptional.isPresent()){
+			RefreshToken refreshToken = refreshTokenOptional.get();
+			return Optional.of(new JwtResponse(token, refreshToken.getToken(),userDetails.getUsername()));
+		}
+		return Optional.empty();
 	}
 
 	private void authenticate(String username, String password) throws Exception {
