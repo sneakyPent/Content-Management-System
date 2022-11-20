@@ -15,6 +15,11 @@ spring:
 
 
   security:
+    jwt:
+      secret: mySecretKey
+#     1000*SECONDS*MINUTES*HOURS
+      tokenExpirationDurationInMs: 20000   # 1 hour=3600000
+      refreshTokenExpirationDurationInMs: 18000000   # 5 hours=18000000
     user:
       name: ${SPRING_SECURITY_USER_NAME:user}
       password: ${SPRING_SECURITY_USER_PASSWORD:password}
