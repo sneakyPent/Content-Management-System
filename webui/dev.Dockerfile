@@ -9,7 +9,7 @@ ENV PATH /app/node_modules/.bin:$PATH
 COPY package.json ./
 COPY package-lock.json ./
 RUN npm install
-RUN npm install -g @angular/cli@15.0.0
+RUN npm install -g @angular/cli@14.2.10
 RUN mkdir -p node_modules/.cache && chmod -R 777 node_modules/.cache
 
 # add app

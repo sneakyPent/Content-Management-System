@@ -16,7 +16,7 @@ COPY package.json /app/package.json
 
 COPY package-lock.json /app/package-lock.json
 RUN npm install
-RUN npm install -g @angular/cli@15.0.0
+RUN npm install -g @angular/cli@14.2.10
 
 # add app
 COPY . /app
