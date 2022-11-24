@@ -94,7 +94,7 @@ public class ApplicationSecurity {
     public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
 
 //      Disable CSRF
-        http = http.csrf().disable();
+        http = http.csrf().and().cors().disable();
 //      Set authenticate provider
         http.authenticationProvider(authenticationProvider());
 //       Set session management to stateless

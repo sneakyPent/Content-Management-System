@@ -32,7 +32,7 @@ export class CartService {
 
   getShippingPrices() {
     // const url = "/app/auth/signin"
-    const url = "http://localhost/app/auth/signin"
+    const url = "/app/auth/signin"
     const body = {
       "username": "admin",
       "password": "password"

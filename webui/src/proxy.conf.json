@@ -1,0 +1,8 @@
+{
+  "/app/auth/signin": {
+    "target": "http://localhost:8080/app/auth/signin",
+    "secure": false,
+    "changeOrigin": true,
+    "logLevel": "debug"
+  }
+}
